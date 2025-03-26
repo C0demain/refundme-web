@@ -1,7 +1,7 @@
 'use client'
 import User from "@/@types/User"
 import { getAllUsers } from "@/services/userService"
-import { Container, Table, Text } from "@chakra-ui/react"
+import { Container, NativeSelect, Table, Text } from "@chakra-ui/react"
 import { useEffect, useState } from "react"
 
 export default function UserList(){
@@ -9,7 +9,8 @@ export default function UserList(){
 
     const fetchUsers = async () => {
         const newUsers = await getAllUsers()
-        setUsers(newUsers)
+        const sortedUsers = newUsers.sort((a, b) => a.name.localeCompare(b.name))
+        setUsers(sortedUsers)
     }
 
     useEffect(() => {

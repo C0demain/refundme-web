@@ -1,6 +1,7 @@
+import User from "@/@types/User";
 import api from "@/services/api";
 
-export async function getAllUsers(){
+export async function getAllUsers(): Promise<User[]>{
     try{
         const response = await api.get('/users')
         return response.data
