@@ -19,7 +19,7 @@ export default function LayoutNavbar({
                     <Logout/>
                 </div>
             </header>
-            <div className="flex-grow container mx-auto p-4 mb-5">
+            <div className="flex-grow h-full mx-auto p-4 mb-5">
                 {children}
             </div>
         </div>
