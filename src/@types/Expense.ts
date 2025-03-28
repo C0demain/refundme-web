@@ -3,7 +3,10 @@ export default interface Expense{
     image: string,
     value: number,
     description: number,
-    userId: string,
+    user: {
+        _id: string,
+        name: string
+    },
     date: string,
     type: string,
 }

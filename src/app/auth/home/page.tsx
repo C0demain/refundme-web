@@ -11,6 +11,7 @@ export default function Home(){
 
     const fetchExpenses = async() => {
         const newExpenses = await getAllExpenses();
+        console.log(newExpenses)
         setExpenses(newExpenses);
     }
 
@@ -29,6 +30,7 @@ export default function Home(){
                             <Table.ColumnHeader bgColor={'#8a2be2'} textStyle='xl'>Tipo</Table.ColumnHeader>
                             <Table.ColumnHeader bgColor={'#8a2be2'} textStyle='xl'>Valor</Table.ColumnHeader>
                             <Table.ColumnHeader bgColor={'#8a2be2'} textStyle='xl'>Data</Table.ColumnHeader>
+                            <Table.ColumnHeader bgColor={'#8a2be2'} textStyle='xl'>Solicitante</Table.ColumnHeader>
                             <Table.ColumnHeader bgColor={'#8a2be2'} textStyle='xl'>Imagem</Table.ColumnHeader>
                         </Table.Row>
                     </Table.Header>
@@ -39,6 +41,7 @@ export default function Home(){
                                 <Table.Cell bgColor={'white'} color={'black'} textStyle='md'>{expense.type}</Table.Cell>
                                 <Table.Cell bgColor={'white'} color={'black'} textStyle='md'>{expense.value}</Table.Cell>
                                 <Table.Cell bgColor={'white'} color={'black'} textStyle='md'>{expense.date}</Table.Cell>
+                                <Table.Cell bgColor={'white'} color={'black'} textStyle='md'>{expense.user.name}</Table.Cell>
                                 <Table.Cell bgColor={'white'} color={'black'} textStyle='md'><ReadImage image={expense.image}/></Table.Cell>
                             </Table.Row>
                         )})}
