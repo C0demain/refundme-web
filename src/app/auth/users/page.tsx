@@ -20,19 +20,19 @@ export default function UserList(){
     return (
         <Container>
             <Text textStyle='3xl' color='black' marginY='12'>Usuários</Text>
-            <Table.ScrollArea borderWidth="1px" rounded="md" minW='5/6' bgColor={'white'}>
+            <Table.ScrollArea rounded="md" minW='5/6' bgColor={'white'}>
                 <Table.Root stickyHeader size='sm' interactive>
                     <Table.Header>
                         <Table.Row bg="bg.subtle">
-                            <Table.ColumnHeader textStyle='xl'>Nome</Table.ColumnHeader>
-                            <Table.ColumnHeader textStyle='xl'>Email</Table.ColumnHeader>
+                            <Table.ColumnHeader bg={'#8a2be2'} textStyle='xl'>Nome</Table.ColumnHeader>
+                            <Table.ColumnHeader bg={'#8a2be2'} textStyle='xl'>Email</Table.ColumnHeader>
                         </Table.Row>
                     </Table.Header>
                     <Table.Body>
                         {users.map((user: User, i: number) => {return (
                             <Table.Row key={i}>
-                                <Table.Cell textStyle='md'>{user.name}</Table.Cell>
-                                <Table.Cell textStyle='md'>{user.email}</Table.Cell>
+                                <Table.Cell bg={'white'} color={'black'} textStyle='md'>{user.name}</Table.Cell>
+                                <Table.Cell bg={'white'} color={'black'} textStyle='md'>{user.email}</Table.Cell>
                             </Table.Row>
                         )})}
                         <Table.Row>

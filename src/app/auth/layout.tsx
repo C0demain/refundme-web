@@ -19,6 +19,7 @@ export default function LayoutNavbar({
                         <Text color='white' textStyle='2xl' fontWeight='bold'>RefoundMe</Text>
                     </div>
                     <Link href='/auth/users' className="font-bold">Usuários</Link>
+                    <Link href='/auth/home' className="font-bold">Reembolsos</Link>
                 </div>
                 <div>
                     <Logout/>

@@ -32,7 +32,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const signIn = async (email: string, password: string) => {
     const data = await login(email, password);
-    console.log(data)
     Cookies.set("authToken", data.access_token, { expires: 7 });
     Cookies.set("userId", data.user_id, {expires: 7});
     router.push('/auth/home')

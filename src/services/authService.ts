@@ -7,8 +7,6 @@ interface LoginResponse {
 
 export const login = async (userEmail: string, userPassword: string) => {
   try {
-    console.log('chegando na API')
-    console.log(userEmail, " e", userPassword)
     const response = await api.post<LoginResponse>("/auth/login", {
       email: userEmail,
       password: userPassword,
