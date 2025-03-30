@@ -1,14 +1,14 @@
 import "./globals.css";
 import { Provider } from "@/components/ui/provider";
 import { AuthProvider } from "@/context/authContext";
-import { ColorModeScript } from "@chakra-ui/color-mode";
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="pt-br" suppressHydrationWarning>
       <head>
-        <title>RefoundMe</title>
+        <title>RefundMe</title>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link rel="icon" href="/favicon.png" type="image/x-icon" />
       </head>
       <body className="w-full min-h-screen flex flex-col">
         <Provider>

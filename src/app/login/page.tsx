@@ -1,71 +1,131 @@
 "use client";
 
 import { useAuth } from "@/context/authContext";
-import { Box, Button, Field, Input, Stack } from "@chakra-ui/react";
+import {
+  Box,
+  Button,
+  Field,
+  Input,
+  Stack,
+  Text,
+  Image,
+} from "@chakra-ui/react";
 import { useState } from "react";
-import { FaMoneyBillTransfer } from "react-icons/fa6";
+import Swal from "sweetalert2";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 
 export default function Login() {
   const { signIn } = useAuth();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+
+  // Toast SweetAlert2
+  const Toast = Swal.mixin({
+    toast: true,
+    position: "top",
+    showConfirmButton: false,
+    timer: 3000,
+    timerProgressBar: true,
+    didOpen: (toast) => {
+      toast.addEventListener("mouseenter", Swal.stopTimer);
+      toast.addEventListener("mouseleave", Swal.resumeTimer);
+    },
+  });
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-    setError("");
+    setIsLoading(true);
     try {
       await signIn(email, password);
+      Toast.fire({
+        icon: "success",
+        title: "Login realizado com sucesso!",
+        position: 'top'
+      });
     } catch (err) {
-      setError("Erro ao fazer login. Verifique suas credenciais.");
+    
+      Toast.fire({
+        icon: "error",
+        title: "Erro ao fazer login. Verifique suas credenciais.",
+        position: 'top'
+      });
+    } finally {
+      setIsLoading(false);
     }
   };
 
   return (
-    <div className="flex min-h-screen">
-      {/* Seção roxa (lado esquerdo) */}
-      <div className="bg-[#8a2be2] w-1/3 flex flex-col justify-center items-center">
-        <FaMoneyBillTransfer size={40} />
-        <p className="font-bold text-5xl text-white">RefoundMe</p>
-      </div>
+    <div className="flex min-h-screen justify-center items-center bg-light">
+      <Box w="80%" maxW="md" bg="white" rounded="xl" p="8" boxShadow="lg">
+        <form onSubmit={handleLogin}>
+          <Stack gap="4" align="center">
+            <Image
+              src="/logo.png"
+              alt="Logo"
+              w="400px"
+              h="200px"
+              objectFit="contain"
+            />
 
-      {/* Seção branca (lado direito) */}
-      <div className="w-2/3 flex flex-col justify-center items-center">
-        <Box w="50%" bg="white" rounded="5%" p="5%">
-          <form onSubmit={handleLogin}>
-            <Stack gap="4" align="flex-start" maxW="sm">
-              {error && <p className="text-red-500">{error}</p>}
+            <Field.Root>
+              <Field.Label color="black">E-mail</Field.Label>
+              <Input
+                placeholder="Digite um e-mail"
+                color="black"
+                borderColor="#8a2be2"
+                css={{ "--focus-color": "black" }}
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+              />
+            </Field.Root>
 
-              <Field.Root>
-                <Field.Label color="black">Email</Field.Label>
-                <Input
-                  color="black"
-                  borderColor="#8a2be2"
-                  css={{ "--focus-color": "black" }}
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                />
-              </Field.Root>
-
-              <Field.Root>
+            <Field.Root>
+             
                 <Field.Label color="black">Senha</Field.Label>
-                <Input
-                  type="password"
-                  color="black"
-                  borderColor="#8a2be2"
-                  css={{ "--focus-color": "black" }}
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                />
-              </Field.Root>
+                <Box position="relative" w="100%">
+                  <Input
+                    placeholder="Digite uma senha"
+                    type={showPassword ? "text" : "password"}
+                    color="black"
+                    borderColor="#8a2be2"
+                    css={{ "--focus-color": "black" }}
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    pr="3rem" // espaço pro botão
+                  />
+                  <Button
+                    onClick={() => setShowPassword(!showPassword)}
+                    variant="ghost"
+                    position="absolute"
+                    top="50%"
+                    right="0.5rem"
+                    transform="translateY(-50%)"
+                    size="sm"
+                    aria-label={showPassword ? "Esconder senha" : "Mostrar senha"}
+                  >
+                   {showPassword ? <FaEyeSlash  color="#8a2be2"/> : <FaEye color="#8a2be2" />}
 
-              <Button bg="#8a2be2" color="white" type="submit">
-                Entrar
-              </Button>
-            </Stack>
-          </form>
-        </Box>
-      </div>
+                  </Button>
+                </Box>
+              
+
+            </Field.Root>
+
+            <Button
+              loading={isLoading}
+              bg="#8a2be2"
+              color="white"
+              type="submit"
+              _hover={{ bg: "#7a1fd1" }}
+              w="100%"
+            >
+              Entrar
+            </Button>
+          </Stack>
+        </form>
+      </Box>
     </div>
   );
 }

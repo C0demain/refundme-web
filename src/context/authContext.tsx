@@ -23,19 +23,30 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
 
   useEffect(() => {
-    const token = Cookies.get("authToken");
-    if (token) {
-      // Aqui você pode chamar uma API para validar o token e buscar o usuário
-      setUser({ id: "1", email: "teste@email.com" }); // Exemplo, troque pela API real
+    if (typeof window !== 'undefined') {
+      const token = Cookies.get("authToken");
+      const userId = Cookies.get("userId");
+      const userEmail = Cookies.get("userEmail"); // ← supondo que você salvou isso
+
+      if (token && userId && userEmail) {
+        setUser({ id: userId, email: userEmail });
+      }
     }
   }, []);
 
+
   const signIn = async (email: string, password: string) => {
-    const data = await login(email, password);
-    Cookies.set("authToken", data.access_token, { expires: 7 });
-    Cookies.set("userId", data.user_id, {expires: 7});
-    router.push('/auth/home')
+    try {
+      const data = await login(email, password);
+      Cookies.set("authToken", data.access_token, { expires: 7 });
+      Cookies.set("userId", data.user_id, { expires: 7 });
+      setUser({ id: data.user_id, email }); // adiciona user local
+      router.push("/auth/home");
+    } catch (err) {
+      throw new Error("Credenciais inválidas ou erro ao fazer login.");
+    }
   };
+
 
   const signOut = () => {
     Cookies.remove("authToken");

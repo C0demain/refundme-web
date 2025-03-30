@@ -1,46 +1,32 @@
-'use client'
-import { useAuth } from "@/context/authContext";
-import { Button, CloseButton, Dialog, Portal } from "@chakra-ui/react";
-import { useState } from "react";
+"use client";
 
-export default function Logout(){
+import { useAuth } from "@/context/authContext";
+import { Button } from "@chakra-ui/react";
+import Swal from "sweetalert2";
+
+export default function Logout() {
     const { signOut } = useAuth();
 
-    function handleLogout(){
-        signOut()
+    function handleLogout() {
+        Swal.fire({
+            title: "Tem certeza que deseja sair?",
+            icon: "warning",
+            showCancelButton: true,
+            showCloseButton: true,
+            confirmButtonColor: "#8a2be2",
+            cancelButtonColor: "	#e53e3e",
+            confirmButtonText: "Sim, sair",
+            cancelButtonText: "Cancelar",
+        }).then((result) => {
+            if (result.isConfirmed) {
+                signOut();
+            }
+        });
     }
-    
-    return(
-        <Dialog.Root>
-            <Dialog.Trigger asChild>
-                <Button variant="outline" size="sm">
-                Logout
-                </Button>
-            </Dialog.Trigger>
-            <Portal>
-                <Dialog.Backdrop />
-                <Dialog.Positioner>
-                <Dialog.Content>
-                    <Dialog.Header>
-                        <Dialog.Title>Logout</Dialog.Title>
-                    </Dialog.Header>
-                    <Dialog.Body>
-                        <p>
-                            Deseja sair da sua conta?
-                        </p>
-                    </Dialog.Body>
-                        <Dialog.Footer>
-                            <Dialog.ActionTrigger asChild>
-                                <Button variant="outline">Cancel</Button>
-                            </Dialog.ActionTrigger>
-                                <Button onClick={handleLogout}>Sim</Button>
-                        </Dialog.Footer>
-                    <Dialog.CloseTrigger asChild>
-                    <CloseButton size="sm" />
-                    </Dialog.CloseTrigger>
-                </Dialog.Content>
-                </Dialog.Positioner>
-            </Portal>
-        </Dialog.Root>
-    )
+
+    return (
+        <Button variant="outline" size="sm" onClick={handleLogout}>
+            Logout
+        </Button>
+    );
 }

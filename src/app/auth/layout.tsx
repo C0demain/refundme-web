@@ -2,7 +2,6 @@
 import Logout from "@/components/auth/logout";
 import { Text } from "@chakra-ui/react";
 import Link from "next/link";
-import { MdOutlineAttachMoney } from "react-icons/md";
 
 export default function LayoutNavbar({
     children,
@@ -15,8 +14,7 @@ export default function LayoutNavbar({
             <header className="flex w-full h-12 bg-[#8a2be2] px-10 items-center justify-between">
                 <div className="flex items-center gap-12">
                     <div className="flex gap-2 items-center">
-                        <MdOutlineAttachMoney size={40} />
-                        <Text color='white' textStyle='2xl' fontWeight='bold'>RefoundMe</Text>
+                        <Text color='white' textStyle='2xl' fontWeight='bold'>RefundMe</Text>
                     </div>
                     <Link href='/auth/users' className="font-bold">Usuários</Link>
                     <Link href='/auth/home' className="font-bold">Reembolsos</Link>
