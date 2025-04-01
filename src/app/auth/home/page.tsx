@@ -42,7 +42,7 @@ export default function Home() {
   return (
     <Container maxW="container.lg">
       <Text textStyle="3xl" color="black" marginY="12">
-        Solicitações de reembolso
+        Solicitações de Reembolso
       </Text>
 
       {isLoading ? (
