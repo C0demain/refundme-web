@@ -62,7 +62,7 @@ export default function Login() {
         <form onSubmit={handleLogin}>
           <Stack gap="4" align="center">
             <Image
-              src="/logo.png"
+              src="/logo-inicio.png"
               alt="Logo"
               w="400px"
               h="200px"

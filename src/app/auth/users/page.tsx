@@ -1,7 +1,7 @@
 "use client";
 
 import User from "@/@types/User";
-import { getAllUsers, createUser } from "@/services/userService";
+import { getAllUsers, createUser, deleteUser } from "@/services/userService";
 import {
   Container,
   Table,
@@ -9,6 +9,9 @@ import {
   Spinner,
   Center,
   Button,
+  Dialog,
+  Portal,
+  CloseButton
 } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
@@ -20,10 +23,17 @@ export default function UserList() {
   const [isLoading, setIsLoading] = useState(true);
   const router = useRouter();
 
-  const handleCreateUser = () => {
-    router.push("/auth/users");
+  const deleteUser = async (id: string) => {
+    console.log("ID do usuário a ser deletado:", id); // Verifica o ID antes da requisição
+    try {
+      await deleteUser(id);
+      setUsers(users.filter(user => user.id !== id));
+    } catch (err) {
+      console.error("Erro ao excluir usuário:", err);
+    }
   };
 
+  
   const fetchUsers = async () => {
     try {
       const newUsers = await getAllUsers();
@@ -57,6 +67,7 @@ export default function UserList() {
                 <Table.Row>
                   <Table.ColumnHeader bg="#8a2be2" textStyle="xl">Nome</Table.ColumnHeader>
                   <Table.ColumnHeader bg="#8a2be2" textStyle="xl">Email</Table.ColumnHeader>
+                  <Table.ColumnHeader bg="#8a2be2" textStyle="xl">Ações</Table.ColumnHeader>
                 </Table.Row>
               </Table.Header>
               <Table.Body>
@@ -64,6 +75,39 @@ export default function UserList() {
                   <Table.Row key={i}>
                     <Table.Cell bg="white" color="black" textStyle="md">{user.name}</Table.Cell>
                     <Table.Cell bg="white" color="black" textStyle="md">{user.email}</Table.Cell>
+                    <Table.Cell bg="white" color="black" textStyle="md">
+                    <Dialog.Root>
+                      <Dialog.Trigger asChild>
+                        <Button variant="outline" size="sm" bg="#8a2be2">
+                          Excluir
+                        </Button>
+                      </Dialog.Trigger>
+                      <Portal>
+                        <Dialog.Backdrop  className="fixed inset-0 bg-black opacity-50" />
+                        <Dialog.Positioner>
+                          <Dialog.Content bg="white" color="black" p="6" rounded="lg" shadow="lg">
+                            <Dialog.Header>
+                              <Dialog.Title color="black">Confirmar Exclusão</Dialog.Title>
+                            </Dialog.Header>
+                            <Dialog.Body>
+                              <p  color="black">
+                              Tem certeza de que deseja excluir este usuário? Esta ação não poderá ser desfeita.
+                              </p>
+                            </Dialog.Body>
+                            <Dialog.Footer>
+                              <Dialog.ActionTrigger asChild>
+                                <Button variant="outline" color="#000000" _hover={{bg: "white"}}>Cancelar</Button>
+                              </Dialog.ActionTrigger>
+                              <Button  bg="#8a2be2" color="white" onClick={() => deleteUser(user.id)}>Excluir</Button>
+                            </Dialog.Footer>
+                            <Dialog.CloseTrigger asChild>
+                              <CloseButton size="sm" color="#000000"/>
+                            </Dialog.CloseTrigger>
+                          </Dialog.Content>
+                        </Dialog.Positioner>
+                      </Portal>
+                    </Dialog.Root>
+                    </Table.Cell>
                   </Table.Row>
                 ))}
               </Table.Body>
