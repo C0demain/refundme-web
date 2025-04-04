@@ -41,7 +41,7 @@ export default function Home() {
 
   return (
     <Container maxW="container.lg">
-      <Text textStyle="3xl" color="black" marginY="12">
+      <Text fontSize="3xl" fontWeight="bold" color="black" my="6">
         Solicitações de Reembolso
       </Text>
 

@@ -42,7 +42,7 @@ export default function UserList() {
   return (
     <Container>
       <Text fontSize="3xl" fontWeight="bold" color="black" my="6">
-        Usuários
+        Listagem de Usuários
       </Text>
 
       {isLoading ? (
