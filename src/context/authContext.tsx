@@ -23,14 +23,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
 
   useEffect(() => {
-    if (typeof window !== 'undefined') {
-      const token = Cookies.get("authToken");
-      const userId = Cookies.get("userId");
-      const userEmail = Cookies.get("userEmail"); // ← supondo que você salvou isso
+    const token = Cookies.get("authToken");
+    const userId = Cookies.get("userId");
+    const userEmail = Cookies.get("userEmail"); // ← supondo que você salvou isso
 
-      if (token && userId && userEmail) {
-        setUser({ id: userId, email: userEmail });
-      }
+    if (token && userId && userEmail) {
+      setUser({ id: userId, email: userEmail });
     }
   }, []);
 
@@ -40,13 +38,13 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       const data = await login(email, password);
       Cookies.set("authToken", data.access_token, { expires: 7 });
       Cookies.set("userId", data.user_id, { expires: 7 });
-      setUser({ id: data.user_id, email }); // adiciona user local
+      setUser({ id: data.user_id, email });
       router.push("/auth/home");
-    } catch (err) {
-      throw new Error("Credenciais inválidas ou erro ao fazer login.");
+    } catch (err: any) {
+      // Captura apenas a mensagem do erro
+      throw new Error(err.errors || "Erro desconhecido ao fazer login.");
     }
   };
-
 
   const signOut = () => {
     Cookies.remove("authToken");

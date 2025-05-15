@@ -2,7 +2,7 @@ import axios from "axios";
 import Cookies from "js-cookie";
 
 const api = axios.create({
-  baseURL: "http://api-5semestre.ddns.net:3000", // URL base da API
+  baseURL: "http://localhost:3000", // URL base da API
   headers: {
     "Content-Type": "application/json",
     'Client-Type': 'web' // esse header vai servir para o backend identificar de de onde vem a requisição
@@ -22,7 +22,7 @@ api.interceptors.response.use(
   (error) => {
     if (error.response?.status === 401) {
       Cookies.remove("authToken"); // Remove token inválido
-      window.location.href = "/login"; // Redireciona para login
+      //window.location.href = "/login"; // Redireciona para login
     }
     return Promise.reject(error);
   }

@@ -10,10 +10,20 @@ export const login = async (userEmail: string, userPassword: string) => {
     const response = await api.post<LoginResponse>("/auth/login", {
       email: userEmail,
       password: userPassword,
-    }, );
+    });
     return response.data;
   } catch (error: any) {
-    console.error("Erro no login", error.response?.data || error.message);
-    throw new Error(error.response?.data?.message || "Erro ao fazer login.");
+    const apiMessage =
+      error.response?.data?.errors ||
+      "Erro ao fazer login.";
+
+    console.error("Erro no login:", apiMessage);
+
+    // Garante que seja sempre uma string simples
+    throw new Error(
+      JSON.stringify(
+        error.response?.data?.errors || ["Erro ao fazer login."]
+      )
+    );
   }
 };
