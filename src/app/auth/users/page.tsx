@@ -11,29 +11,19 @@ import {
   Button,
   Dialog,
   Portal,
-  CloseButton
+  CloseButton,
 } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 
-type NewUser = Omit<User, "id"> & { password: string };
+type NewUser = Omit<User, "_id"> & { password: string };
 
 export default function UserList() {
   const [users, setUsers] = useState<User[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const router = useRouter();
 
-  const deleteUser = async (id: string) => {
-    console.log("ID do usuário a ser deletado:", id); // Verifica o ID antes da requisição
-    try {
-      await deleteUser(id);
-      setUsers(users.filter(user => user.id !== id));
-    } catch (err) {
-      console.error("Erro ao excluir usuário:", err);
-    }
-  };
 
-  
   const fetchUsers = async () => {
     try {
       const newUsers = await getAllUsers();
@@ -75,7 +65,7 @@ export default function UserList() {
                   <Table.Row key={i}>
                     <Table.Cell bg="white" color="black" textStyle="md">{user.name}</Table.Cell>
                     <Table.Cell bg="white" color="black" textStyle="md">{user.email}</Table.Cell>
-                    <Table.Cell bg="white" color="black" textStyle="md">
+                      <Table.Cell bg="white" color="black" textStyle="md">
                     <Dialog.Root>
                       <Dialog.Trigger asChild>
                         <Button variant="outline" size="sm" bg="#8a2be2">
@@ -98,7 +88,7 @@ export default function UserList() {
                               <Dialog.ActionTrigger asChild>
                                 <Button variant="outline" color="#000000" _hover={{bg: "white"}}>Cancelar</Button>
                               </Dialog.ActionTrigger>
-                              <Button  bg="#8a2be2" color="white" onClick={() => deleteUser(user.id)}>Excluir</Button>
+                              <Button  bg="#8a2be2" color="white" onClick={() => deleteUser(user._id)}>Excluir</Button>
                             </Dialog.Footer>
                             <Dialog.CloseTrigger asChild>
                               <CloseButton size="sm" color="#000000"/>
@@ -113,6 +103,7 @@ export default function UserList() {
               </Table.Body>
             </Table.Root>
           </Table.ScrollArea>
+
 
           <Button
             aria-label="Adicionar Usuário"

@@ -40,7 +40,7 @@ const isEmailValid = (email: string) => {
   return emailRegex.test(email);
 };
 
-type NewUser = Omit<User, "id"> & { password: string };
+type NewUser = Omit<User, "_id"> & { password: string };
 
 export default function UserList() {
   const [users, setUsers] = useState<User[]>([]);
@@ -77,7 +77,7 @@ export default function UserList() {
     }
 
     try {
-      const userToCreate: User = { id: "", ...newUser };
+      const userToCreate: User = { _id: "", ...newUser };
       const createdUser = await createUser(userToCreate);
 
       setUsers([...users, createdUser]);

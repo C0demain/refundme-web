@@ -69,8 +69,8 @@ export default function Home() {
                   <Table.Cell bg="white" color="black" textStyle="md">{expense.description}</Table.Cell>
                   <Table.Cell bg="white" color="black" textStyle="md">{expense.type}</Table.Cell>
                   <Table.Cell bg="white" color="black" textStyle="md">{formatCurrency(expense.value)}</Table.Cell>
-                  <Table.Cell bg="white" color="black" textStyle="md"> {new Date(expense.date).toLocaleDateString("pt-BR")}</Table.Cell>
-                  <Table.Cell bg="white" color="black" textStyle="md">{expense.user.name}</Table.Cell>
+                  <Table.Cell bg="white" color="black" textStyle="md">{new Date(expense.date).toLocaleDateString("pt-BR")}</Table.Cell>
+                  <Table.Cell bg="white" color="black" textStyle="md">{expense?.user?.name}</Table.Cell>
                   <Table.Cell bg="white" color="black" textStyle="md">
                     <ReadImage image={expense.image} />
                   </Table.Cell>
