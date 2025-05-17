@@ -66,13 +66,13 @@ export default function Home() {
             <Table.Body>
               {Array.isArray(expenses) && expenses.map((expense, i) => (
                 <Box as="tr" key={i} borderBottom="1px solid #E2E8F0">
-                  <Table.Cell bg="white" color="black" textStyle="md">{expense.description}</Table.Cell>
-                  <Table.Cell bg="white" color="black" textStyle="md">{expense.type}</Table.Cell>
-                  <Table.Cell bg="white" color="black" textStyle="md">{formatCurrency(expense.value)}</Table.Cell>
-                  <Table.Cell bg="white" color="black" textStyle="md"> {new Date(expense.date).toLocaleDateString("pt-BR")}</Table.Cell>
-                  <Table.Cell bg="white" color="black" textStyle="md">{expense.user.name}</Table.Cell>
+                  <Table.Cell bg="white" color="black" textStyle="md">{expense?.description}</Table.Cell>
+                  <Table.Cell bg="white" color="black" textStyle="md">{expense?.type}</Table.Cell>
+                  <Table.Cell bg="white" color="black" textStyle="md">{formatCurrency(expense?.value)}</Table.Cell>
+                  <Table.Cell bg="white" color="black" textStyle="md"> {new Date(expense?.date).toLocaleDateString("pt-BR")}</Table.Cell>
+                  <Table.Cell bg="white" color="black" textStyle="md">{expense.user?.name}</Table.Cell>
                   <Table.Cell bg="white" color="black" textStyle="md">
-                    <ReadImage image={expense.image} />
+                    <ReadImage image={expense?.image} />
                   </Table.Cell>
                 </Box>
               ))}

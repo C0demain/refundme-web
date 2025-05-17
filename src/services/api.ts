@@ -22,7 +22,7 @@ api.interceptors.response.use(
   (error) => {
     if (error.response?.status === 401) {
       Cookies.remove("authToken"); // Remove token inválido
-      window.location.href = "/login"; // Redireciona para login
+      //window.location.href = "/login"; // Redireciona para login
     }
     return Promise.reject(error);
   }
