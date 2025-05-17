@@ -46,7 +46,6 @@ export default function Login() {
         position: "top",
       });
     } catch (err: any) {
-      console.error(err);
 
       let errorMessages: string[] = [];
 
@@ -129,6 +128,7 @@ export default function Login() {
 
             <Button
               loading={isLoading}
+              loadingText={"Carregando..."}
               bg="#8a2be2"
               color="white"
               type="submit"

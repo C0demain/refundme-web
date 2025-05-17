@@ -40,9 +40,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       Cookies.set("userId", data.user_id, { expires: 7 });
       setUser({ id: data.user_id, email });
       router.push("/auth/home");
-    } catch (err: any) {
+    } catch (error: any) {
       // Captura apenas a mensagem do erro
-      throw new Error(err.errors || "Erro desconhecido ao fazer login.");
+      throw error;
     }
   };
 

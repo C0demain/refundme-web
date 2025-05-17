@@ -12,13 +12,8 @@ export const login = async (userEmail: string, userPassword: string) => {
       password: userPassword,
     });
     return response.data;
+
   } catch (error: any) {
-    const apiMessage =
-      error.response?.data?.errors ||
-      "Erro ao fazer login.";
-
-    console.error("Erro no login:", apiMessage);
-
     // Garante que seja sempre uma string simples
     throw new Error(
       JSON.stringify(
