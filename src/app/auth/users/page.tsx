@@ -72,7 +72,9 @@ export default function UserList() {
                   <Table.Row key={i}>
                     <Table.Cell bg="white" color="black" textStyle="md">{user.name}</Table.Cell>
                     <Table.Cell bg="white" color="black" textStyle="md">{user.email}</Table.Cell>
-                    <Table.Cell bg="white" color="black" textStyle="md">{user.role}</Table.Cell>
+                    <Table.Cell bg="white" color="black" textStyle="md">
+                      {user.role === 'admin' ? 'Administrador' : 'Usuário'}
+                    </Table.Cell>
                     <Table.Cell bg="white" color="black" textStyle="md">
                       <Dialog.Root>
                         <Dialog.Trigger asChild>

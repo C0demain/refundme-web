@@ -143,15 +143,6 @@ export default function UserList() {
             borderColor="purple.500"
             color="gray.800"
           />
-
-          <Heading size="sm" alignSelf="start" color="gray.800">Cargo</Heading>
-          <Input
-            placeholder="Cargo"
-            value={newUser.role}
-            onChange={(e) => setNewUser({ ...newUser, role: e.target.value })}
-            borderColor="purple.500"
-            color="gray.800"
-          />
           
           <Heading size="sm" alignSelf="start" color="gray.800">Senha</Heading>
           <Stack w="full" color="gray.800">
