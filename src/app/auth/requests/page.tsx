@@ -1,9 +1,10 @@
 'use client'
 import RequestType from "@/@types/RequestType";
 import { getRequests } from "@/services/requestService";
-import { Badge, Box, Button, Center, Container, Heading, Icon, Input, Spinner, Table } from "@chakra-ui/react";
+import { Badge, Box, Button, ButtonGroup, Center, Container, Heading, Icon, IconButton, Input, Pagination, Spinner, Table } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { FaArrowUpRightFromSquare } from "react-icons/fa6";
+import { LuChevronLeft, LuChevronRight } from "react-icons/lu";
 import { MdModeEdit } from "react-icons/md";
 
 const badgeColors = {
@@ -18,13 +19,18 @@ export default function RequestList(){
     const [isLoading, setIsLoading] = useState(true)
     const [hasError, setHasError] = useState(false)
     const [search, setSearch] = useState<string>('')
+    const [page, setPage] = useState<number>(1)
+    const [pageSize, setPageSize] = useState(10)
+    const [totalPages, setTotalPages] = useState(1)
 
     const fetchRequests = async () => {
         try{
-            const newRequests = await getRequests({search})
-            setRequests([...newRequests, ...newRequests])
+            const newRequests = await getRequests({search, limit: pageSize, page})
+            setRequests(newRequests.data)
+            setTotalPages(newRequests.totalPages)
             setIsLoading(false)
         }catch(e){
+            console.error(e)
             setIsLoading(false)
             setHasError(true)
         }
@@ -32,7 +38,7 @@ export default function RequestList(){
 
     useEffect(() => {
         fetchRequests()
-    }, [search])
+    }, [search, page])
 
     if(isLoading){
         return (
@@ -85,7 +91,33 @@ export default function RequestList(){
                       </Table.Row>
                 ))}
                   </Table.Body>
-                </Table.Root>
+            </Table.Root>
+            <Pagination.Root pageSize={pageSize} page={page} count={totalPages}>
+                <ButtonGroup variant="ghost" size="sm" wrap="wrap">
+                    <Pagination.PrevTrigger asChild onClick={_ => setPage(page-1)}>
+                        <IconButton>
+                            <LuChevronLeft />
+                        </IconButton>
+                    </Pagination.PrevTrigger>
+
+                    <Pagination.Items
+                    render={(page) => (
+                    <IconButton 
+                    variant={{ base: "ghost", _selected: "outline" }}
+                    onClick={_ => setPage(page.value)}
+                    >
+                        {page.value}
+                    </IconButton>
+                    )}
+                    />
+
+                    <Pagination.NextTrigger asChild onClick={_ => setPage(page-1)}>
+                        <IconButton>
+                            <LuChevronRight />
+                        </IconButton>
+                    </Pagination.NextTrigger>
+                </ButtonGroup>
+            </Pagination.Root>
         </Container>
     )
 }
