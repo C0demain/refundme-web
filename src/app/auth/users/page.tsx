@@ -57,6 +57,7 @@ export default function UserList() {
                 <Table.Row>
                   <Table.ColumnHeader bg="#8a2be2" textStyle="xl">Nome</Table.ColumnHeader>
                   <Table.ColumnHeader bg="#8a2be2" textStyle="xl">Email</Table.ColumnHeader>
+                  <Table.ColumnHeader bg="#8a2be2" textStyle="xl">Cargo</Table.ColumnHeader>
                   <Table.ColumnHeader bg="#8a2be2" textStyle="xl">Ações</Table.ColumnHeader>
                 </Table.Row>
               </Table.Header>
@@ -65,6 +66,7 @@ export default function UserList() {
                   <Table.Row key={i}>
                     <Table.Cell bg="white" color="black" textStyle="md">{user.name}</Table.Cell>
                     <Table.Cell bg="white" color="black" textStyle="md">{user.email}</Table.Cell>
+                    <Table.Cell bg="white" color="black" textStyle="md">{user.role}</Table.Cell>
                       <Table.Cell bg="white" color="black" textStyle="md">
                     <Dialog.Root>
                       <Dialog.Trigger asChild>

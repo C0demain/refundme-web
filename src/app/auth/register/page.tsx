@@ -49,6 +49,7 @@ export default function UserList() {
     name: "",
     email: "",
     password: "",
+    role: "",
   });
   const [passwordStrength, setPasswordStrength] = useState(0);
   const [errorMessage, setErrorMessage] = useState("");
@@ -81,7 +82,7 @@ export default function UserList() {
       const createdUser = await createUser(userToCreate);
 
       setUsers([...users, createdUser]);
-      setNewUser({ name: "", email: "", password: "" });
+      setNewUser({ name: "", email: "", password: "", role: "" });
       setPasswordStrength(0);
       setErrorMessage("");
       router.push("/auth/users");
