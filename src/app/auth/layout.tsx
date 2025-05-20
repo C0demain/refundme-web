@@ -20,6 +20,7 @@ export default function LayoutNavbar({
                     <div className="flex justify-end items-end gap-12 pl-10">
                         <Link href='/auth/users' className="font-bold">Usuários</Link>
                         <Link href='/auth/home' className="font-bold">Reembolsos</Link>
+                        <Link href='/auth/projects' className="font-bold">Projetos</Link>
                     </div>
                 </div>
                 <div>
