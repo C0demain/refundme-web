@@ -20,3 +20,14 @@ export async function getRequests(filters?: RequestFilters): Promise<RequestResp
         throw e
     }
 }
+
+export async function updateStatus(id: string, status: string){
+    try {
+        const response = await api.patch(`/requests/${id}`, {status})
+        console.log(response.data)
+        return response.data as RequestResponse
+    } catch (e: any) {
+        console.error(e)
+        throw e
+    }
+}

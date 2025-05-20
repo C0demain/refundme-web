@@ -1,18 +1,13 @@
 'use client'
 import RequestType from "@/@types/RequestType";
-import { getRequests } from "@/services/requestService";
-import { Badge, Box, Button, ButtonGroup, Center, Container, Heading, Icon, IconButton, Input, Pagination, Spinner, Table } from "@chakra-ui/react";
+import EditableStatus from "@/components/editable-status";
+import { getRequests, updateStatus } from "@/services/requestService";
+import { Badge, Box, Button, ButtonGroup, Center, Container, Editable, Heading, Icon, IconButton, Input, Pagination, Spinner, Table } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { FaArrowUpRightFromSquare } from "react-icons/fa6";
 import { LuChevronLeft, LuChevronRight } from "react-icons/lu";
 import { MdModeEdit } from "react-icons/md";
-
-const badgeColors = {
-    'Aprovado': 'green',
-    'Recusado': 'red',
-    'Rascunho': '',
-    'Pendente': 'yellow'
-}
+import Swal from "sweetalert2";
 
 export default function RequestList(){
     const [requests, setRequests] = useState<RequestType[] | null>()
@@ -33,6 +28,15 @@ export default function RequestList(){
             console.error(e)
             setIsLoading(false)
             setHasError(true)
+        }
+    }
+
+    const editStatus = async (id: string, status: string) => {
+        try{
+            await updateStatus(id, status)
+            Swal.fire({text: 'Status atualizado', icon: 'success'})
+        }catch(e){
+            Swal.fire({text: 'Erro ao editar status', icon: 'error'})
         }
     }
 
@@ -76,7 +80,7 @@ export default function RequestList(){
                         <Table.Cell w="1/3">{req.title}</Table.Cell>
                         <Table.Cell>{req.code}</Table.Cell>
                         <Table.Cell>
-                            <Badge colorPalette={badgeColors[req.status as keyof typeof badgeColors]}>{req.status}</Badge>
+                            <EditableStatus initialValue={req.status} onSelected={e => editStatus(req._id, e.value)}/>
                         </Table.Cell>
                         <Table.Cell>
                             <Box display="flex" gap="4">
