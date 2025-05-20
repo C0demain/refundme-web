@@ -3,7 +3,7 @@ import Logout from "@/components/auth/logout";
 import { ColorModeButton } from "@/components/ui/color-mode";
 import { Avatar, For, HStack, Image } from "@chakra-ui/react";
 import Link from "next/link";
-import Dashboard from "./dashboard/page";
+import Dashboard from "./charts/page";
 
 export default function LayoutNavbar({
   children,
@@ -26,8 +26,8 @@ export default function LayoutNavbar({
             />
           </div>
           <div className="flex justify-end items-end gap-12 pl-10">
-            <Link href={"/auth/dashboard"} className="font-bold">
-              Dashboard
+            <Link href={"/auth/charts"} className="font-bold">
+              Gráficos
             </Link>
             <Link href="/auth/users" className="font-bold">
               Usuários

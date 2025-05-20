@@ -24,7 +24,7 @@ export default function Dashboard() {
         >
           <Container>
             <Text fontSize="3xl" color="black" m="4">
-              Requisições
+              Requisições por status
             </Text>
             <RequestStatusChart />
           </Container>
@@ -32,7 +32,7 @@ export default function Dashboard() {
         <GridItem bg={"white"} borderRadius={"md"}>
           <Container>
             <Text fontSize="3xl" color="black" m="4">
-              Test chart
+              Despesas por tipo
             </Text>
             <InitialChart />
           </Container>
