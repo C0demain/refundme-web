@@ -2,7 +2,8 @@ import RequestType from "@/@types/RequestType"
 import api from "./api"
 
 interface RequestFilters extends PaginationArgs{
-    search?: string
+    search?: string,
+    status?: string
 }
 
 interface RequestResponse{
@@ -11,6 +12,9 @@ interface RequestResponse{
 }
 
 export async function getRequests(filters?: RequestFilters): Promise<RequestResponse>{
+    if(filters?.status === ""){
+        filters.status = undefined
+    }
     try {
         const response = await api.get('/requests', {params: filters })
         console.log(response.data)

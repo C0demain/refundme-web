@@ -8,6 +8,7 @@ import { FaArrowUpRightFromSquare } from "react-icons/fa6";
 import { LuChevronLeft, LuChevronRight } from "react-icons/lu";
 import toast from 'react-hot-toast';
 import { useRouter } from "next/navigation";
+import StatusFilterPicker from "@/components/status-picker";
 
 export default function RequestList(){
     const [requests, setRequests] = useState<RequestType[] | null>()
@@ -17,11 +18,12 @@ export default function RequestList(){
     const [page, setPage] = useState<number>(1)
     const [pageSize, setPageSize] = useState(10)
     const [totalPages, setTotalPages] = useState(1)
+    const [status, setStatus] = useState<string | undefined>("")
     const router = useRouter()
 
     const fetchRequests = async () => {
         try{
-            const newRequests = await getRequests({search, limit: pageSize, page})
+            const newRequests = await getRequests({search, limit: pageSize, page, status})
             setRequests(newRequests.data)
             setTotalPages(newRequests.totalPages)
             setIsLoading(false)
@@ -42,7 +44,7 @@ export default function RequestList(){
 
     useEffect(() => {
         fetchRequests()
-    }, [search, page])
+    }, [search, page, status])
 
     if(isLoading){
         return (
@@ -64,7 +66,8 @@ export default function RequestList(){
     return (
         <Container maxW="container.lg">
             <Heading mt="8" mb="6" fontSize="2xl">Solicitações</Heading>
-            <Input placeholder="Pesquisar por código ou título" value={search} onChange={e => setSearch(e.currentTarget.value)} mb="10" bg="white"/>
+            <Input placeholder="Pesquisar por código ou título" value={search} onChange={e => setSearch(e.currentTarget.value)} bg="white"/>
+            <StatusFilterPicker selectedValue={status} setSelectedValue={setStatus}/>
             <Table.Root stickyHeader size="sm" w="full">
                 <Table.Header>
                 <Table.Row>
@@ -81,6 +84,7 @@ export default function RequestList(){
                         <Table.Cell>{req.code}</Table.Cell>
                         <Table.Cell>
                             <EditableStatus
+                            key={req._id}
                             initialValue={req.status} 
                             onSelected={e => toast.promise(editStatus(req._id, e.value), {loading: 'Atualizando status', error: 'Erro ao atualizar status', success: 'Status atualizado com sucesso'})}
                             />
