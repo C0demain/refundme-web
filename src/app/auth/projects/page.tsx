@@ -1,6 +1,7 @@
 "use client"
 import Project from "@/@types/Project";
 import CardProject from "@/components/projects/cardProject";
+import CreateProjectDialog from "@/components/projects/createProjectDialog";
 import { getAllProjects } from "@/services/projectService";
 import { Center, Container, Spinner, Text } from "@chakra-ui/react";
 import { useRouter } from "next/navigation";
@@ -14,7 +15,6 @@ export default function Projects() {
     const fetchProjects = async(search: string) => {
         try{
             const response = await getAllProjects(search)
-            console.log(response)
             setProjects(response)
         } catch (erro) {
             console.error("Erro ao buscar projetos: ", erro)
@@ -29,9 +29,12 @@ export default function Projects() {
 
     return(
         <Container>
-            <Text fontSize="3xl" fontWeight="bold" color="black" my="6">
-                Listagem de Projetos
-            </Text>
+            <div>
+                <Text fontSize="3xl" fontWeight="bold" color="black" my="6">
+                    Listagem de Projetos
+                </Text>
+                <CreateProjectDialog onCreate={() => fetchProjects("")} children={undefined}/>
+            </div>
 
             {isLoading ? (
                 <Center py="20">
@@ -40,7 +43,7 @@ export default function Projects() {
             ) : (
                 <div className="flex flex-col h-screen space-y-4">
                     {projects?.map((project: Project, i: Key) => (
-                        <CardProject projeto={project} key={i} />
+                        <CardProject onChange={() => fetchProjects("")} projeto={project} key={i} />
                     ))}
                 </div>
                 

@@ -22,7 +22,7 @@ export const getProjectById = async (id: string) => {
 };
 
 
-export const deleteProject = async(id:string) => {
+export const deleteProjects = async(id:string) => {
     try {
         const response = await api.delete(`/projects/${id}`)
         if (!response || !response.data) {
@@ -36,16 +36,12 @@ export const deleteProject = async(id:string) => {
     }
 }
 
-export async function createProject(title: string, limit: number, users: string[], description: string,){
-    console.log(users)
-    try{
-        const response = await api.post(`/projects`, {
-            title,
-            limit,
-            users,
-            description
-        })
+interface createProjectDTO{title:string, limit: number, users: string[], description: string, cc: string}
 
+export async function createProject(data: createProjectDTO){
+    console.log(data)
+    try{
+        const response = await api.post(`/projects`, data)
         return response.data
     }catch(e: any){
         console.error(e)
