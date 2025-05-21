@@ -28,10 +28,24 @@ const badgeColors = {
 interface EditableStatusProps{
     initialValue: string,
     onSelected: ((details: {value: string}) => void) | undefined
+    size?: "sm" | "md" | "lg"
+}
+
+const sizes = {
+    "sm": {
+        px: '6'
+    },
+    "md": {
+        px: '8'
+    },
+    "lg":{
+        px: '10'
+    }
 }
 
 export default function EditableStatus(props: EditableStatusProps){
     const {initialValue, onSelected} = props
+    const size = props.size || "sm"
     const [currentValue, setCurrentValue] = useState(initialValue)
 
     const handleChange = (details: SelectValueChangeDetails<{value: string}>) => {
@@ -42,14 +56,19 @@ export default function EditableStatus(props: EditableStatusProps){
     }
 
     return (
-        <Select.Root collection={status} size="sm" width="fit" variant="subtle" value={[currentValue]} onValueChange={handleChange}>
+        <Select.Root collection={status} size={size} width="fit" variant="subtle" value={[currentValue]} onValueChange={handleChange}>
             <Select.HiddenSelect />
             <Select.Control>
-                <Select.Trigger bgColor="white" px='6'>
-                    <Badge colorPalette={badgeColors[currentValue as keyof typeof badgeColors]} >{currentValue}</Badge>
+                <Select.Trigger bgColor="transparent" px={sizes[size].px}>
+                    <Badge 
+                    colorPalette={badgeColors[currentValue as keyof typeof badgeColors]}
+                    fontSize={size || "sm"}
+                    >
+                        {currentValue}
+                    </Badge>
                 </Select.Trigger>
                 <Select.IndicatorGroup>
-                <Select.Indicator />
+                <Select.Indicator/>
                 </Select.IndicatorGroup>
             </Select.Control>
             <Portal>

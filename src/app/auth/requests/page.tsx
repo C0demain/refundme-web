@@ -2,12 +2,12 @@
 import RequestType from "@/@types/RequestType";
 import EditableStatus from "@/components/editable-status";
 import { getRequests, updateStatus } from "@/services/requestService";
-import { Box, Button, ButtonGroup, Center, Container, Editable, Heading, Icon, IconButton, Input, Pagination, Spinner, Table } from "@chakra-ui/react";
+import { Box, Button, ButtonGroup, Center, Container, Heading, Icon, IconButton, Input, Pagination, Spinner, Table } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { FaArrowUpRightFromSquare } from "react-icons/fa6";
 import { LuChevronLeft, LuChevronRight } from "react-icons/lu";
-import { MdModeEdit } from "react-icons/md";
 import toast from 'react-hot-toast';
+import { useRouter } from "next/navigation";
 
 export default function RequestList(){
     const [requests, setRequests] = useState<RequestType[] | null>()
@@ -17,6 +17,7 @@ export default function RequestList(){
     const [page, setPage] = useState<number>(1)
     const [pageSize, setPageSize] = useState(10)
     const [totalPages, setTotalPages] = useState(1)
+    const router = useRouter()
 
     const fetchRequests = async () => {
         try{
@@ -79,17 +80,18 @@ export default function RequestList(){
                         <Table.Cell w="1/3">{req.title}</Table.Cell>
                         <Table.Cell>{req.code}</Table.Cell>
                         <Table.Cell>
-                            <EditableStatus 
+                            <EditableStatus
                             initialValue={req.status} 
                             onSelected={e => toast.promise(editStatus(req._id, e.value), {loading: 'Atualizando status', error: 'Erro ao atualizar status', success: 'Status atualizado com sucesso'})}
                             />
                         </Table.Cell>
                         <Table.Cell>
                             <Box display="flex" gap="4">
-                                <Icon size="md" _hover={{cursor: 'pointer'}}>
-                                    <MdModeEdit />
-                                </Icon>
-                                <Icon size={"md"} _hover={{cursor: 'pointer'}}>
+                                <Icon
+                                size={"md"}
+                                _hover={{cursor: 'pointer'}}
+                                onClick={_ => router.push(`requests/${req._id}`)}
+                                >
                                     <FaArrowUpRightFromSquare />
                                 </Icon>
                             </Box>

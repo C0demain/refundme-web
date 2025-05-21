@@ -21,6 +21,17 @@ export async function getRequests(filters?: RequestFilters): Promise<RequestResp
     }
 }
 
+export async function getRequestsById(id: string): Promise<RequestType>{
+    try {
+        const response = await api.get(`/requests/${id}`)
+        console.log(response.data)
+        return response.data as RequestType
+    } catch (e: any) {
+        console.error(e)
+        throw e
+    }
+}
+
 export async function updateStatus(id: string, status: string){
     try {
         const response = await api.patch(`/requests/${id}`, {status})
