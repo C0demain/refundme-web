@@ -3,6 +3,7 @@
 import Expense from "@/@types/Expense";
 import ReadImage from "@/components/expenses/readImage";
 import { getAllExpenses } from "@/services/expenseService"
+import formatCurrency from "@/util/format-currency";
 import {
   Container,
   Table,
@@ -31,13 +32,6 @@ export default function Home() {
   useEffect(() => {
     fetchExpenses();
   }, []);
-
-  // Formatador de moeda
-  const formatCurrency = (value: number) =>
-    new Intl.NumberFormat("pt-BR", {
-      style: "currency",
-      currency: "BRL",
-    }).format(value);
 
   return (
     <Container maxW="container.lg">
