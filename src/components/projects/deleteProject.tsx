@@ -27,7 +27,7 @@ export default function DeleteProject({id, handleDelete}: DeleteProjectProps){
     return (
         <Dialog.Root key={id} size={"md"}>
             <Dialog.Trigger asChild>
-            <Button variant="solid" backgroundColor={"red"} color={"white"} size={"md"}>
+            <Button variant="solid" backgroundColor={"red"} color={"white"} size={"sm"} width={"1/6"}>
                 Deletar
             </Button>
             </Dialog.Trigger>

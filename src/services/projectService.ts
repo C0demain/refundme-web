@@ -17,7 +17,7 @@ export const getProjectById = async (id: string) => {
         console.log(response.data)
         return response.data;
     } catch (error) {
-        return error
+        throw error
     }
 };
 
@@ -39,12 +39,33 @@ export const deleteProjects = async(id:string) => {
 interface createProjectDTO{title:string, limit: number, users: string[], description: string, cc: string}
 
 export async function createProject(data: createProjectDTO){
-    console.log(data)
     try{
         const response = await api.post(`/projects`, data)
         return response.data
     }catch(e: any){
         console.error(e)
         throw e
+    }
+}
+
+export async function DeleteUserForProject(projectId:string | undefined, userId: string) {
+    try {
+        const response = await api.delete(`/projects/${projectId}/users/${userId}`)
+        return response.data
+    } catch (error) {
+        console.error(error)
+        throw error
+    }
+}
+
+export async function AddUserInProject(projectId: string | undefined, userIds: string[]) {
+    if(projectId){
+        try {
+            const response = await api.patch(`/projects/${projectId}/users`, userIds)
+            return response.data
+        } catch (error) {
+            console.error(error)
+            throw error
+        }
     }
 }

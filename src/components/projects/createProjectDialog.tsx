@@ -17,7 +17,7 @@ export default function CreateProjectDialog({ onCreate }: CreateProjectDialogPro
   return (
     <Dialog.Root size="md">
       <Dialog.Trigger asChild>
-        <Button colorScheme="purple">Criar Projeto</Button>
+        <Button backgroundColor={"blue"}>Criar Projeto</Button>
       </Dialog.Trigger>
       <Portal>
         <Dialog.Backdrop />

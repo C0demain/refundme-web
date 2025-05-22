@@ -29,7 +29,7 @@ export default function Projects() {
 
     return(
         <Container>
-            <div>
+            <div className="flex justify-between items-center">
                 <Text fontSize="3xl" fontWeight="bold" color="black" my="6">
                     Listagem de Projetos
                 </Text>
