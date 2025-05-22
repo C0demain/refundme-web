@@ -1,5 +1,4 @@
 interface User{
-    password: any
     password: { password: any }
     role: string
     _id: string,
