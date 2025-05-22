@@ -89,7 +89,7 @@ export default function Home() {
           </Table.ScrollArea>
 
           {/* Controles de paginação */}
-          <HStack justify="center" mt="6" spacing="6">
+          <HStack justify="center" mt="6">
             <Button
               onClick={() => setPage((prev) => Math.max(prev - 1, 1))}
               disabled={page === 1}
