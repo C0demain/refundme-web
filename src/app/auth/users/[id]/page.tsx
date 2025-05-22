@@ -102,6 +102,7 @@ export default function EditUser() {
             color="gray.800"
             />
 
+            <Heading size="sm" alignSelf="start" color="gray.800">Email</Heading>
             <Input
             placeholder="Email"
             value={user.email || ""} // ← e aqui
@@ -122,6 +123,7 @@ export default function EditUser() {
             </Button>
             <Button
               variant="outline"
+              color="#000000"
               colorScheme="purple"
               onClick={() => router.push("/auth/users")}
               _hover={{ bg: "gray.200" }}

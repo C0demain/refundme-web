@@ -79,61 +79,67 @@ export default function UserList() {
                   <Table.ColumnHeader bg="#8a2be2" textStyle="xl">Ações</Table.ColumnHeader>
                 </Table.Row>
               </Table.Header>
-              <Table.Body>
-                {users.map((user, i) => (
-                  <Table.Row key={i}>
-                    <Table.Cell bg="white" color="black" textStyle="md">{user.name}</Table.Cell>
-                    <Table.Cell bg="white" color="black" textStyle="md">{user.email}</Table.Cell>
-                    <Table.Cell bg="white" color="black" textStyle="md">
-                      {user.role === 'admin' ? 'Administrador' : 'Usuário'}
-                    </Table.Cell>
-                    <Table.Cell bg="white" color="black" textStyle="md">
-                      <Button
-                        bg="#8a2be2"
-                        color="white"
-                        onClick={() => handleUpdate(user._id)}
-                      >
-                        Atualizar
-                      </Button>
-                    </Table.Cell>
-                    <Table.Cell bg="white" color="black" textStyle="md">
-                      <Dialog.Root>
-                        <Dialog.Trigger asChild>
-                          <Button variant="outline" size="sm" bg="#8a2be2">
-                            Excluir
+                <Table.Body>
+                  {users.map((user, i) => (
+                    <Table.Row key={i}>
+                      <Table.Cell bg="white" color="black" textStyle="md">{user.name}</Table.Cell>
+                      <Table.Cell bg="white" color="black" textStyle="md">{user.email}</Table.Cell>
+                      <Table.Cell bg="white" color="black" textStyle="md">
+                        {user.role === 'admin' ? 'Administrador' : 'Usuário'}
+                      </Table.Cell>
+                      
+                      {/* Ações: Atualizar + Excluir lado a lado */}
+                      <Table.Cell bg="white" color="black" textStyle="md">
+                        <HStack>
+                          <Button
+                            size="sm"
+                            bg="#8a2be2"
+                            color="white"
+                            onClick={() => handleUpdate(user._id)}
+                            _hover={{ bg: "#7325b2" }}
+                          >
+                            Atualizar
                           </Button>
-                        </Dialog.Trigger>
-                        <Portal>
-                          <Dialog.Backdrop className="fixed inset-0 bg-black opacity-50" />
-                          <Dialog.Positioner>
-                            <Dialog.Content bg="white" color="black" p="6" rounded="lg" shadow="lg">
-                              <Dialog.Header>
-                                <Dialog.Title color="black">Confirmar Exclusão</Dialog.Title>
-                              </Dialog.Header>
-                              <Dialog.Body>
-                                <p>Tem certeza de que deseja excluir este usuário? Esta ação não poderá ser desfeita.</p>
-                              </Dialog.Body>
-                              <Dialog.Footer>
-                                <Dialog.ActionTrigger asChild>
-                                  <Button variant="outline" color="#000000" _hover={{ bg: "white" }}>
-                                    Cancelar
-                                  </Button>
-                                </Dialog.ActionTrigger>
-                                <Button bg="#8a2be2" color="white" onClick={() => handleDelete(user._id)}>
-                                  Excluir
-                                </Button>
-                              </Dialog.Footer>
-                              <Dialog.CloseTrigger asChild>
-                                <CloseButton size="sm" color="#000000" />
-                              </Dialog.CloseTrigger>
-                            </Dialog.Content>
-                          </Dialog.Positioner>
-                        </Portal>
-                      </Dialog.Root>
-                    </Table.Cell>
-                  </Table.Row>
-                ))}
-              </Table.Body>
+
+                          <Dialog.Root>
+                            <Dialog.Trigger asChild>
+                              <Button size="sm" bg="#8a2be2" color="white">
+                                Excluir
+                              </Button>
+                            </Dialog.Trigger>
+                            <Portal>
+                              <Dialog.Backdrop className="fixed inset-0 bg-black opacity-50" />
+                              <Dialog.Positioner>
+                                <Dialog.Content bg="white" color="black" p="6" rounded="lg" shadow="lg">
+                                  <Dialog.Header>
+                                    <Dialog.Title color="black">Confirmar Exclusão</Dialog.Title>
+                                  </Dialog.Header>
+                                  <Dialog.Body>
+                                    <p>Tem certeza de que deseja excluir este usuário? Esta ação não poderá ser desfeita.</p>
+                                  </Dialog.Body>
+                                  <Dialog.Footer>
+                                    <Dialog.ActionTrigger asChild>
+                                      <Button variant="outline" color="#000000" _hover={{ bg: "white" }}>
+                                        Cancelar
+                                      </Button>
+                                    </Dialog.ActionTrigger>
+                                    <Button bg="#8a2be2" color="white" onClick={() => handleDelete(user._id)}>
+                                      Excluir
+                                    </Button>
+                                  </Dialog.Footer>
+                                  <Dialog.CloseTrigger asChild>
+                                    <CloseButton size="sm" color="#000000" />
+                                  </Dialog.CloseTrigger>
+                                </Dialog.Content>
+                              </Dialog.Positioner>
+                            </Portal>
+                          </Dialog.Root>
+                        </HStack>
+                      </Table.Cell>
+                    </Table.Row>
+                  ))}
+                </Table.Body>
+
             </Table.Root>
           </Table.ScrollArea>
 
