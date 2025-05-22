@@ -1,5 +1,5 @@
 interface User{
-    password: { password: any }
+    password: any
     role: string
     _id: string,
     name: string,
