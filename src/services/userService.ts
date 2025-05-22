@@ -32,6 +32,22 @@ export async function deleteUser(id: string) {
   }
 }
 
+export async function updateUser(id: string, data: Partial<User>) {
+  try {
+    console.log("Atualizando usuário:", {
+      nome: data.name,
+      email: data.email,
+    });
+
+    const response = await api.patch(`/users/${id}`, data);
+    return response.data;
+  } catch (e: any) {
+    console.error(e);
+    throw new Error(e.response?.data?.message || "Erro ao atualizar usuário.");
+  }
+}
+
+
 export async function getUser(id: string): Promise<User> {
   try {
     const response = await api.get(`/users/${id}`);
@@ -50,5 +66,15 @@ export async function createUser(newUser: User): Promise<User> {
     console.error(e);
     console.error("Erro:", e.response?.data || e.message || e);
     throw new Error(e.response?.data?.message || "Erro ao criar usuário.");
+  }
+}
+
+export async function getUserById(id: string): Promise<User> {
+  try {
+    const response = await api.get(`/users/${id}`);
+    return response.data;
+  } catch (e: any) {
+    console.error(e);
+    throw new Error(e.response?.data?.message || "Erro ao buscar usuário.");
   }
 }

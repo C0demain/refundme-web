@@ -1,7 +1,7 @@
 "use client";
 
 import User from "@/@types/User";
-import { getAllUsers, deleteUser } from "@/services/userService";
+import { getAllUsers, deleteUser, getUser } from "@/services/userService";
 import {
   Container,
   Table,
@@ -21,7 +21,7 @@ export default function UserList() {
   const [users, setUsers] = useState<User[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [page, setPage] = useState(1);
-  const [limit] = useState(10); // você pode ajustar o limite por página
+  const [limit] = useState(10);
   const router = useRouter();
 
   const fetchUsers = async () => {
@@ -42,7 +42,19 @@ export default function UserList() {
 
   const handleDelete = async (id: string) => {
     await deleteUser(id);
-    fetchUsers(); // atualiza a lista após exclusão
+    fetchUsers();
+  };
+
+  const handleUpdate = async (id: string) => {
+    try {
+      const user = await getUser(id);
+      console.log("Usuário selecionado para atualização:");
+      console.log("Nome:", user.name);
+      console.log("Email:", user.email);
+      router.push(`/auth/users/${id}`);
+    } catch (err) {
+      console.error("Erro ao buscar usuário:", err);
+    }
   };
 
   return (
@@ -76,6 +88,15 @@ export default function UserList() {
                       {user.role === 'admin' ? 'Administrador' : 'Usuário'}
                     </Table.Cell>
                     <Table.Cell bg="white" color="black" textStyle="md">
+                      <Button
+                        bg="#8a2be2"
+                        color="white"
+                        onClick={() => handleUpdate(user._id)}
+                      >
+                        Atualizar
+                      </Button>
+                    </Table.Cell>
+                    <Table.Cell bg="white" color="black" textStyle="md">
                       <Dialog.Root>
                         <Dialog.Trigger asChild>
                           <Button variant="outline" size="sm" bg="#8a2be2">
@@ -94,9 +115,13 @@ export default function UserList() {
                               </Dialog.Body>
                               <Dialog.Footer>
                                 <Dialog.ActionTrigger asChild>
-                                  <Button variant="outline" color="#000000" _hover={{ bg: "white" }}>Cancelar</Button>
+                                  <Button variant="outline" color="#000000" _hover={{ bg: "white" }}>
+                                    Cancelar
+                                  </Button>
                                 </Dialog.ActionTrigger>
-                                <Button bg="#8a2be2" color="white" onClick={() => handleDelete(user._id)}>Excluir</Button>
+                                <Button bg="#8a2be2" color="white" onClick={() => handleDelete(user._id)}>
+                                  Excluir
+                                </Button>
                               </Dialog.Footer>
                               <Dialog.CloseTrigger asChild>
                                 <CloseButton size="sm" color="#000000" />
@@ -117,21 +142,17 @@ export default function UserList() {
             <Button
               onClick={() => setPage((prev) => Math.max(prev - 1, 1))}
               disabled={page === 1}
-              mr="4"  // margin-right para o botão "Anterior"
+              mr="4"
             >
               Anterior
             </Button>
-            
+
             <Text color="gray.800">Página {page}</Text>
-            
-            <Button
-              onClick={() => setPage((prev) => prev + 1)}
-              ml="4"  // margin-left para o botão "Próxima"
-            >
+
+            <Button onClick={() => setPage((prev) => prev + 1)} ml="4">
               Próxima
             </Button>
           </HStack>
-
 
           <Button
             aria-label="Adicionar Usuário"
