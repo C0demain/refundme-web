@@ -1,14 +1,28 @@
 import Expense from "@/@types/Expense";
 import api from "./api";
 
-export async function getAllExpenses(): Promise<Expense[]>{
-    try {
-        console.log('puxando')
-        const response = await api.get('/expenses')
-        console.log(response)
-        return response.data.data
-    } catch (e: any) {
-        console.error(e)
-        throw new Error(e.response?.data?.message || "Erro ao fazer login.")
-    }
+type ExpensesResponse = {
+  data: Expense[];
+  total: number;
+  page: number;
+  limit: number;
+};
+
+export async function getAllExpenses(params: { page: number; limit: number; }): Promise<ExpensesResponse> {
+  try {
+    const response = await api.get('/expenses', {
+      params: {
+        page: params.page,
+        limit: params.limit,
+      },
+    });
+
+    // Ajuste aqui dependendo da estrutura real da resposta da API
+    // Estou assumindo que a resposta vem em response.data com { data, total, page, limit }
+    return response.data;
+
+  } catch (e: any) {
+    console.error(e);
+    throw new Error(e.response?.data?.message || "Erro ao buscar despesas.");
+  }
 }
