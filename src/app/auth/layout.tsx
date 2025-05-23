@@ -35,6 +35,12 @@ export default function LayoutNavbar({
             <Link href="/auth/home" className="font-bold">
               Reembolsos
             </Link>
+            <Link href="/auth/projects" className="font-bold">
+              Projetos
+            </Link>
+            <Link href="/auth/requests" className="font-bold">
+              Solicitações
+            </Link>
           </div>
         </div>
         <div>

@@ -1,5 +1,7 @@
 interface User{
-    id: string,
+    password: any
+    role: string
+    _id: string,
     name: string,
     email: string
 }
