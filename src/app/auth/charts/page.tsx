@@ -3,7 +3,6 @@
 import ExpensesByTypeChart from "@/components/charts/expensesByTypeChart";
 import RequestsByStatusChart from "@/components/charts/requestsByStatusChart";
 import {
-  Box,
   Container,
   GridItem,
   HStack,
@@ -15,13 +14,15 @@ import {
   StackSeparator,
   Text,
 } from "@chakra-ui/react";
-import { useState } from "react";
 import dayjs from "dayjs";
+import { useState } from "react";
 
 export default function Dashboard() {
   const [period, setPeriod] = useState<string>("month");
   // TODO: atribuir data inicial dinamicamente
-  const [startDate, setStartDate] = useState<string>("2025-01-01");
+  const [startDate, setStartDate] = useState<string>(
+    dayjs(new Date()).subtract(1, "month").format("YYYY-MM-DD")
+  );
   const [endDate, setEndDate] = useState<string>(
     dayjs(new Date()).format("YYYY-MM-DD")
   );
@@ -125,13 +126,17 @@ export default function Dashboard() {
             />
           </Container>
         </GridItem>
-        <Box bg={"white"} borderRadius={"md"}>
+        {/* <GridItem
+          bg={"white"}
+          borderRadius={"md"}
+          colSpan={{ base: 2, mdDown: 1 }}
+        >
           <Container my={2}>
             <Text fontSize="3xl" color="black" my="6">
               Reembolsos
             </Text>
           </Container>
-        </Box>
+        </GridItem> */}
       </SimpleGrid>
     </Container>
   );

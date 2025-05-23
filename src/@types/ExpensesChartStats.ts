@@ -1,5 +1,5 @@
 export default interface ExpensesChartStats {
-  date: Date;
+  date: string;
   Papelaria: number;
   Combustível: number;
   Alimentação: number;

@@ -1,5 +1,6 @@
 import { getExpensesStats } from "@/services/chartService";
 import { Chart, useChart } from "@chakra-ui/charts";
+import dayjs from "dayjs";
 import { useEffect, useMemo, useState } from "react";
 import {
   Bar,
@@ -60,8 +61,22 @@ export default function ExpensesByTypeChart(props: {
     }));
   }, [data]);
 
+  const formattedData = useMemo(() => {
+    if (period != "week") {
+      return data.map((entry) => ({
+        ...entry,
+        date: dayjs(entry.date).format("MM/YYYY"),
+      }));
+    } else {
+      return data.map((entry) => ({
+        ...entry,
+        date: dayjs(entry.date).format("DD/MM/YYYY"),
+      }));
+    }
+  }, [data]);
+
   const chart = useChart({
-    data,
+    data: formattedData,
     series: dynamicSeries,
     sort: { by: "date", direction: "asc" },
   });
