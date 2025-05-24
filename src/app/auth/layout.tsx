@@ -1,6 +1,6 @@
 "use client";
 import Logout from "@/components/auth/logout";
-import { ColorModeButton } from "@/components/ui/color-mode";
+import { ColorModeButton, DarkMode } from "@/components/ui/color-mode";
 import { Avatar, For, HStack, Image } from "@chakra-ui/react";
 import Link from "next/link";
 import Dashboard from "./charts/page";
@@ -25,7 +25,7 @@ export default function LayoutNavbar({
               ml="140px"
             />
           </div>
-          <div className="flex justify-end items-end gap-12 pl-10">
+          <div className="flex justify-end items-end gap-12 pl-10 text-white">
             <Link href={"/auth/charts"} className="font-bold">
               Gráficos
             </Link>
