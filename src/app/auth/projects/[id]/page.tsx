@@ -181,7 +181,7 @@
                                 </Editable.SubmitTrigger>
                             </Editable.Control>
                         </Editable.Root>
-                        <Text fontSize={"xl"} color={"gray"}>#{project.code}</Text>
+                        <Text fontSize={"xl"} color={"gray"}>#{project?.code}</Text>
                         </Box>
                         {/* Descrição */}
                         <Box mt={4}>
