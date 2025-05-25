@@ -111,24 +111,20 @@ export default function RequestList() {
           setSearchFunction={setSearch}
           fetchFunction={fetchRequests}
         />
-        <Table.ScrollArea rounded="md" minW="full">
-          <Table.Root stickyHeader size="sm" interactive>
+        <Table.ScrollArea rounded="md" minW="full" bgColor="white">
+          <Table.Root
+            colorPalette={"purple"}
+            variant={"outline"}
+            stickyHeader
+            size="sm"
+            interactive
+          >
             <Table.Header>
               <Table.Row>
-                <Table.ColumnHeader color={"white"} bg="#8a2be2" textStyle="xl">
-                  Título
-                </Table.ColumnHeader>
-                <Table.ColumnHeader color={"white"} bg="#8a2be2" textStyle="xl">
-                  Código
-                </Table.ColumnHeader>
-                <Table.ColumnHeader color={"white"} bg="#8a2be2" textStyle="xl">
-                  Status
-                </Table.ColumnHeader>
-                <Table.ColumnHeader
-                  color={"white"}
-                  bg="#8a2be2"
-                  textStyle="xl"
-                />
+                <Table.ColumnHeader textStyle="xl">Título</Table.ColumnHeader>
+                <Table.ColumnHeader textStyle="xl">Código</Table.ColumnHeader>
+                <Table.ColumnHeader textStyle="xl">Status</Table.ColumnHeader>
+                <Table.ColumnHeader textStyle="xl" />
               </Table.Row>
             </Table.Header>
             <Table.Body>
@@ -136,7 +132,7 @@ export default function RequestList() {
                 <Table.Row key={i}>
                   <Table.Cell w="1/3">{req.title}</Table.Cell>
                   <Table.Cell>{req.code}</Table.Cell>
-                  <Table.Cell>
+                  <Table.Cell colorPalette={"gray"}>
                     <EditableStatus
                       key={req._id}
                       initialValue={req.status}

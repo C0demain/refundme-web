@@ -4,6 +4,7 @@ import User from "@/@types/User";
 import PaginationComponent from "@/components/pagination";
 import { deleteUser, getAllUsers, getUser } from "@/services/userService";
 import {
+  Box,
   Button,
   Center,
   CloseButton,
@@ -19,7 +20,7 @@ import {
 } from "@chakra-ui/react";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import { LuPencil, LuTrash2 } from "react-icons/lu";
+import { LuPencil, LuPlus, LuTrash2 } from "react-icons/lu";
 
 export default function UserList() {
   const [users, setUsers] = useState<User[]>([]);
@@ -70,12 +71,13 @@ export default function UserList() {
           Listagem de Usuários
         </Heading>
         <Button
+          variant={"solid"}
           aria-label="Adicionar Usuário"
-          bg={"#7C55F3"}
-          color="white"
+          colorPalette={"purple"}
           rounded="full"
           onClick={() => router.push("/auth/register")}
         >
+          <LuPlus />
           Criar Usuário
         </Button>
       </div>
@@ -92,54 +94,36 @@ export default function UserList() {
             minW="5/6"
             bgColor="white"
           >
-            <Table.Root stickyHeader size="sm" interactive>
+            <Table.Root
+              colorPalette={"purple"}
+              stickyHeader
+              variant={"outline"}
+              size="sm"
+              interactive
+            >
               <Table.Header>
                 <Table.Row>
-                  <Table.ColumnHeader
-                    color={"white"}
-                    bg="#8a2be2"
-                    textStyle="xl"
-                  >
-                    Nome
-                  </Table.ColumnHeader>
-                  <Table.ColumnHeader
-                    color={"white"}
-                    bg="#8a2be2"
-                    textStyle="xl"
-                  >
-                    Email
-                  </Table.ColumnHeader>
-                  <Table.ColumnHeader
-                    color={"white"}
-                    bg="#8a2be2"
-                    textStyle="xl"
-                  >
-                    Cargo
-                  </Table.ColumnHeader>
-                  <Table.ColumnHeader
-                    color={"white"}
-                    bg="#8a2be2"
-                    textStyle="xl"
-                  >
-                    Ações
-                  </Table.ColumnHeader>
+                  <Table.ColumnHeader textStyle="xl">Nome</Table.ColumnHeader>
+                  <Table.ColumnHeader textStyle="xl">Email</Table.ColumnHeader>
+                  <Table.ColumnHeader textStyle="xl">Cargo</Table.ColumnHeader>
+                  <Table.ColumnHeader textStyle="xl">Ações</Table.ColumnHeader>
                 </Table.Row>
               </Table.Header>
               <Table.Body>
                 {users.map((user, i) => (
                   <Table.Row key={i}>
-                    <Table.Cell bg="white" color="black" textStyle="md">
+                    <Table.Cell color="black" textStyle="md">
                       {user.name}
                     </Table.Cell>
-                    <Table.Cell bg="white" color="black" textStyle="md">
+                    <Table.Cell color="black" textStyle="md">
                       {user.email}
                     </Table.Cell>
-                    <Table.Cell bg="white" color="black" textStyle="md">
+                    <Table.Cell color="black" textStyle="md">
                       {user.role === "admin" ? "Administrador" : "Usuário"}
                     </Table.Cell>
 
                     {/* Ações: Atualizar + Excluir lado a lado */}
-                    <Table.Cell bg="white" color="black" textStyle="md">
+                    <Table.Cell color="black" textStyle="md">
                       <HStack>
                         <IconButton
                           variant="solid"
