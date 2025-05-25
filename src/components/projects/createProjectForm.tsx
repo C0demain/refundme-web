@@ -133,7 +133,7 @@ export default function CreateProjectForm({
         </Field.Root>
 
         <Field.Root>
-          <SelectUser onChange={setSelectedUsers} />
+          <SelectUser onChange={setSelectedUsers} usersOnProject={[]}/>
           <Field.ErrorText>{formErrors.users}</Field.ErrorText>
         </Field.Root>
 

@@ -69,3 +69,16 @@ export async function AddUserInProject(projectId: string | undefined, userIds: s
         }
     }
 }
+
+export async function EditProject(id:string, project:{}) {
+    if(id){
+        try {
+            const response = await api.patch(`/projects/${id}`, project)
+            return response.data
+        } catch (error) {
+            console.error(error)
+            throw error
+        }
+    }
+    
+}

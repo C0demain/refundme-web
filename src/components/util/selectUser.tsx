@@ -5,9 +5,10 @@ import { createListCollection, Select } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 interface SelectUserProps {
   onChange: (selectedUserIds: string[]) => void;
+  usersOnProject: string[] | undefined
 }
 
-export default function SelectUser({ onChange }: SelectUserProps) {
+export default function SelectUser({ onChange, usersOnProject }: SelectUserProps) {
   const [collection, setCollection] = useState<any>(null);
   const [selectedValues, setSelectedValues] = useState<string[]>([]);
 
@@ -38,22 +39,24 @@ export default function SelectUser({ onChange }: SelectUserProps) {
     fetchUsers();
   }, []);
 
-  useEffect(() => {
-    onChange(selectedValues);
-  }, [selectedValues]);
+ useEffect(() => {
+  if (usersOnProject && usersOnProject.length > 0) {
+    setSelectedValues(usersOnProject);
+  }
+}, [usersOnProject]);
 
   if (!collection) return null;
 
   return (
     <Select.Root
-      multiple
-      collection={collection}
-      name="users"
-      value={selectedValues}
-      onValueChange={(details) => {
-        setSelectedValues(details.value as string[]);
-      }}
-    >
+    multiple
+    collection={collection}
+    name="users"
+    value={selectedValues}
+    onValueChange={(details) => {
+      setSelectedValues(details.value as string[]);
+    }}
+  >
       <Select.HiddenSelect />
       <Select.Label>Usuários</Select.Label>
       <Select.Control>
