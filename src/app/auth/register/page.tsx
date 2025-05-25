@@ -108,7 +108,7 @@ export default function UserList() {
   }, []);
 
   return (
-    <Container centerContent>
+    <Container centerContent bg="white" width="2/6">
       <Text fontSize="3xl" fontWeight="bold" color="black" my="6">
         Cadastro de Usuários
       </Text>

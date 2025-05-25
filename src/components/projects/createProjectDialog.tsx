@@ -27,7 +27,7 @@ export default function CreateProjectDialog({
           rounded="full"
         >
           <LuPlus />
-          Criar Usuário
+          Criar projeto
         </Button>
       </Dialog.Trigger>
       <Portal>

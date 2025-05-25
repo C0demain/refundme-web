@@ -178,14 +178,13 @@ export default function UserList() {
                                 <Dialog.Footer>
                                   <Dialog.ActionTrigger asChild>
                                     <Button
-                                      colorPalette={"red"}
-                                      _hover={{ bg: "white" }}
+                                      variant="outline"
                                     >
                                       Cancelar
                                     </Button>
                                   </Dialog.ActionTrigger>
                                   <Button
-                                    variant="outline"
+                                    colorPalette="red"
                                     onClick={() => handleDelete(user._id)}
                                   >
                                     Excluir

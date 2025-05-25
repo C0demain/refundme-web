@@ -57,9 +57,9 @@ export default function DeleteProject({
             </Dialog.Body>
             <Dialog.Footer>
               <Dialog.ActionTrigger asChild>
-                <Button colorPalette={"red"}>Cancelar</Button>
+                <Button variant="outline">Cancelar</Button>
               </Dialog.ActionTrigger>
-              <Button variant={"outline"} onClick={() => deleteProject(id)}>
+              <Button colorPalette="red" onClick={() => deleteProject(id)}>
                 Excluir
               </Button>
             </Dialog.Footer>
