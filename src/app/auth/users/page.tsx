@@ -130,9 +130,10 @@ export default function UserList() {
                           colorPalette={"purple"}
                           size={"sm"}
                           rounded={"full"}
+                          onClick={() => handleUpdate(user._id)}
                         >
                           <LuPencil
-                            aria-label="Excluir projeto"
+                            aria-label="Editar Usuário"
                             strokeWidth={2}
                           />
                         </IconButton>
@@ -177,11 +178,7 @@ export default function UserList() {
                                 </Dialog.Body>
                                 <Dialog.Footer>
                                   <Dialog.ActionTrigger asChild>
-                                    <Button
-                                      variant="outline"
-                                    >
-                                      Cancelar
-                                    </Button>
+                                    <Button variant="outline">Cancelar</Button>
                                   </Dialog.ActionTrigger>
                                   <Button
                                     colorPalette="red"
