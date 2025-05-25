@@ -59,7 +59,7 @@ export default function UserList() {
   const fetchUsers = async () => {
     try {
       const newUsers = await getAllUsers();
-      setUsers(newUsers);
+      setUsers(newUsers.data);
     } catch (err) {
       console.error("Erro ao buscar usuários:", err);
     } finally {
