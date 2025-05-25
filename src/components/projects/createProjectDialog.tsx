@@ -13,15 +13,19 @@ interface CreateProjectDialogProps extends DialogRootProps {
   onCreate?: () => void;
 }
 
-export default function CreateProjectDialog({ onCreate }: CreateProjectDialogProps) {
+export default function CreateProjectDialog({
+  onCreate,
+}: CreateProjectDialogProps) {
   return (
     <Dialog.Root size="md">
       <Dialog.Trigger asChild>
-        <Button backgroundColor={"blue"}>Criar Projeto</Button>
+        <Button backgroundColor={"#7C55F3"} rounded={"full"}>
+          Criar Projeto
+        </Button>
       </Dialog.Trigger>
       <Portal>
         <Dialog.Backdrop />
-        <Dialog.Positioner>
+        <Dialog.Positioner color={"black"}>
           <Dialog.Content>
             <Dialog.Header>
               <Dialog.Title>Novo Projeto</Dialog.Title>

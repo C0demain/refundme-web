@@ -9,6 +9,7 @@ interface RequestFilters extends PaginationArgs{
 interface RequestResponse{
     data: RequestType[],
     totalPages: number
+    total: number
 }
 
 export async function getRequests(filters?: RequestFilters): Promise<RequestResponse>{

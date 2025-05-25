@@ -1,10 +1,8 @@
 "use client";
 
+import { getAllUsers, GetUsersResponse } from "@/services/userService";
+import { createListCollection, Select } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
-import { Select, Portal, createListCollection } from "@chakra-ui/react";
-import { getAllUsers } from "@/services/userService";
-import User from "@/@types/User";
-
 interface SelectUserProps {
   onChange: (selectedUserIds: string[]) => void;
 }
@@ -16,10 +14,10 @@ export default function SelectUser({ onChange }: SelectUserProps) {
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const users: User[] = await getAllUsers();
+        const users: GetUsersResponse = await getAllUsers();
         console.log(users, "Usuários do banco");
 
-        const items = users.map((user) => ({
+        const items = users.data.map((user) => ({
           label: user.name,
           value: user._id,
         }));
@@ -51,7 +49,6 @@ export default function SelectUser({ onChange }: SelectUserProps) {
       multiple
       collection={collection}
       name="users"
-      width="320px"
       value={selectedValues}
       onValueChange={(details) => {
         setSelectedValues(details.value as string[]);
@@ -67,16 +64,16 @@ export default function SelectUser({ onChange }: SelectUserProps) {
           <Select.Indicator />
         </Select.IndicatorGroup>
       </Select.Control>
-        <Select.Positioner>
-          <Select.Content>
-            {collection.items.map((item: any) => (
-              <Select.Item key={item.value} item={item}>
-                {item.label}
-                <Select.ItemIndicator />
-              </Select.Item>
-            ))}
-          </Select.Content>
-        </Select.Positioner>
+      <Select.Positioner>
+        <Select.Content>
+          {collection.items.map((item: any) => (
+            <Select.Item key={item.value} item={item}>
+              {item.label}
+              <Select.ItemIndicator />
+            </Select.Item>
+          ))}
+        </Select.Content>
+      </Select.Positioner>
     </Select.Root>
   );
 }

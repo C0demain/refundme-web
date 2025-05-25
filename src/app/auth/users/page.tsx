@@ -1,34 +1,40 @@
 "use client";
 
 import User from "@/@types/User";
-import { getAllUsers, deleteUser, getUser } from "@/services/userService";
+import PaginationComponent from "@/components/pagination";
+import { deleteUser, getAllUsers, getUser } from "@/services/userService";
 import {
+  Button,
+  Center,
+  CloseButton,
   Container,
+  Dialog,
+  Heading,
+  HStack,
+  IconButton,
+  Portal,
+  Spinner,
   Table,
   Text,
-  Spinner,
-  Center,
-  Button,
-  Dialog,
-  Portal,
-  CloseButton,
-  HStack,
 } from "@chakra-ui/react";
-import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+import { LuPencil, LuTrash2 } from "react-icons/lu";
 
 export default function UserList() {
   const [users, setUsers] = useState<User[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [page, setPage] = useState(1);
-  const [limit] = useState(10);
+  const [limit] = useState(15);
+  const [total, setTotal] = useState(0);
   const router = useRouter();
 
   const fetchUsers = async () => {
     setIsLoading(true);
     try {
-      const newUsers = await getAllUsers({ page, limit });
-      setUsers(newUsers);
+      const response = await getAllUsers({ page, limit });
+      setUsers(response.data);
+      setTotal(response.total);
     } catch (err) {
       console.error("Erro ao buscar usuários:", err);
     } finally {
@@ -59,9 +65,20 @@ export default function UserList() {
 
   return (
     <Container>
-      <Text fontSize="3xl" fontWeight="bold" color="black" my="6">
-        Listagem de Usuários
-      </Text>
+      <div className="flex justify-between items-center">
+        <Heading fontSize="3xl" color="black" my="6">
+          Listagem de Usuários
+        </Heading>
+        <Button
+          aria-label="Adicionar Usuário"
+          bg={"#7C55F3"}
+          color="white"
+          rounded="full"
+          onClick={() => router.push("/auth/register")}
+        >
+          Criar Usuário
+        </Button>
+      </div>
 
       {isLoading ? (
         <Center py="20">
@@ -69,112 +86,145 @@ export default function UserList() {
         </Center>
       ) : (
         <>
-          <Table.ScrollArea borderWidth="1px" rounded="md" minW="5/6" bgColor="white">
+          <Table.ScrollArea
+            borderWidth="1px"
+            rounded="md"
+            minW="5/6"
+            bgColor="white"
+          >
             <Table.Root stickyHeader size="sm" interactive>
               <Table.Header>
                 <Table.Row>
-                  <Table.ColumnHeader bg="#8a2be2" textStyle="xl">Nome</Table.ColumnHeader>
-                  <Table.ColumnHeader bg="#8a2be2" textStyle="xl">Email</Table.ColumnHeader>
-                  <Table.ColumnHeader bg="#8a2be2" textStyle="xl">Cargo</Table.ColumnHeader>
-                  <Table.ColumnHeader bg="#8a2be2" textStyle="xl">Ações</Table.ColumnHeader>
+                  <Table.ColumnHeader
+                    color={"white"}
+                    bg="#8a2be2"
+                    textStyle="xl"
+                  >
+                    Nome
+                  </Table.ColumnHeader>
+                  <Table.ColumnHeader
+                    color={"white"}
+                    bg="#8a2be2"
+                    textStyle="xl"
+                  >
+                    Email
+                  </Table.ColumnHeader>
+                  <Table.ColumnHeader
+                    color={"white"}
+                    bg="#8a2be2"
+                    textStyle="xl"
+                  >
+                    Cargo
+                  </Table.ColumnHeader>
+                  <Table.ColumnHeader
+                    color={"white"}
+                    bg="#8a2be2"
+                    textStyle="xl"
+                  >
+                    Ações
+                  </Table.ColumnHeader>
                 </Table.Row>
               </Table.Header>
-                <Table.Body>
-                  {users.map((user, i) => (
-                    <Table.Row key={i}>
-                      <Table.Cell bg="white" color="black" textStyle="md">{user.name}</Table.Cell>
-                      <Table.Cell bg="white" color="black" textStyle="md">{user.email}</Table.Cell>
-                      <Table.Cell bg="white" color="black" textStyle="md">
-                        {user.role === 'admin' ? 'Administrador' : 'Usuário'}
-                      </Table.Cell>
-                      
-                      {/* Ações: Atualizar + Excluir lado a lado */}
-                      <Table.Cell bg="white" color="black" textStyle="md">
-                        <HStack>
-                          <Button
-                            size="sm"
-                            bg="#8a2be2"
-                            color="white"
-                            onClick={() => handleUpdate(user._id)}
-                            _hover={{ bg: "#7325b2" }}
-                          >
-                            Atualizar
-                          </Button>
+              <Table.Body>
+                {users.map((user, i) => (
+                  <Table.Row key={i}>
+                    <Table.Cell bg="white" color="black" textStyle="md">
+                      {user.name}
+                    </Table.Cell>
+                    <Table.Cell bg="white" color="black" textStyle="md">
+                      {user.email}
+                    </Table.Cell>
+                    <Table.Cell bg="white" color="black" textStyle="md">
+                      {user.role === "admin" ? "Administrador" : "Usuário"}
+                    </Table.Cell>
 
-                          <Dialog.Root>
-                            <Dialog.Trigger asChild>
-                              <Button size="sm" bg="#8a2be2" color="white">
-                                Excluir
-                              </Button>
-                            </Dialog.Trigger>
-                            <Portal>
-                              <Dialog.Backdrop className="fixed inset-0 bg-black opacity-50" />
-                              <Dialog.Positioner>
-                                <Dialog.Content bg="white" color="black" p="6" rounded="lg" shadow="lg">
-                                  <Dialog.Header>
-                                    <Dialog.Title color="black">Confirmar Exclusão</Dialog.Title>
-                                  </Dialog.Header>
-                                  <Dialog.Body>
-                                    <p>Tem certeza de que deseja excluir este usuário? Esta ação não poderá ser desfeita.</p>
-                                  </Dialog.Body>
-                                  <Dialog.Footer>
-                                    <Dialog.ActionTrigger asChild>
-                                      <Button variant="outline" color="#000000" _hover={{ bg: "white" }}>
-                                        Cancelar
-                                      </Button>
-                                    </Dialog.ActionTrigger>
-                                    <Button bg="#8a2be2" color="white" onClick={() => handleDelete(user._id)}>
-                                      Excluir
+                    {/* Ações: Atualizar + Excluir lado a lado */}
+                    <Table.Cell bg="white" color="black" textStyle="md">
+                      <HStack>
+                        <IconButton
+                          variant="solid"
+                          colorPalette={"purple"}
+                          size={"sm"}
+                          rounded={"full"}
+                        >
+                          <LuPencil
+                            aria-label="Excluir projeto"
+                            strokeWidth={2}
+                          />
+                        </IconButton>
+
+                        <Dialog.Root>
+                          <Dialog.Trigger asChild>
+                            <IconButton
+                              variant={{
+                                base: "outline",
+                                _hover: "solid",
+                              }}
+                              colorPalette={"red"}
+                              size={"sm"}
+                              rounded={"full"}
+                            >
+                              <LuTrash2
+                                aria-label="Excluir projeto"
+                                strokeWidth={2}
+                              />
+                            </IconButton>
+                          </Dialog.Trigger>
+                          <Portal>
+                            <Dialog.Backdrop className="fixed inset-0 bg-black opacity-50" />
+                            <Dialog.Positioner>
+                              <Dialog.Content
+                                bg="white"
+                                color="black"
+                                p="6"
+                                rounded="lg"
+                                shadow="lg"
+                              >
+                                <Dialog.Header>
+                                  <Dialog.Title color="black">
+                                    Confirmar Exclusão
+                                  </Dialog.Title>
+                                </Dialog.Header>
+                                <Dialog.Body>
+                                  <Text>
+                                    Tem certeza de que deseja excluir este
+                                    usuário? Esta ação não poderá ser desfeita.
+                                  </Text>
+                                </Dialog.Body>
+                                <Dialog.Footer>
+                                  <Dialog.ActionTrigger asChild>
+                                    <Button
+                                      colorPalette={"red"}
+                                      _hover={{ bg: "white" }}
+                                    >
+                                      Cancelar
                                     </Button>
-                                  </Dialog.Footer>
-                                  <Dialog.CloseTrigger asChild>
-                                    <CloseButton size="sm" color="#000000" />
-                                  </Dialog.CloseTrigger>
-                                </Dialog.Content>
-                              </Dialog.Positioner>
-                            </Portal>
-                          </Dialog.Root>
-                        </HStack>
-                      </Table.Cell>
-                    </Table.Row>
-                  ))}
-                </Table.Body>
-
+                                  </Dialog.ActionTrigger>
+                                  <Button
+                                    variant="outline"
+                                    onClick={() => handleDelete(user._id)}
+                                  >
+                                    Excluir
+                                  </Button>
+                                </Dialog.Footer>
+                              </Dialog.Content>
+                            </Dialog.Positioner>
+                          </Portal>
+                        </Dialog.Root>
+                      </HStack>
+                    </Table.Cell>
+                  </Table.Row>
+                ))}
+              </Table.Body>
             </Table.Root>
           </Table.ScrollArea>
 
-          {/* Paginação */}
-          <HStack justify="center" mt="6">
-            <Button
-              onClick={() => setPage((prev) => Math.max(prev - 1, 1))}
-              disabled={page === 1}
-              mr="4"
-            >
-              Anterior
-            </Button>
-
-            <Text color="gray.800">Página {page}</Text>
-
-            <Button onClick={() => setPage((prev) => prev + 1)} ml="4">
-              Próxima
-            </Button>
-          </HStack>
-
-          <Button
-            aria-label="Adicionar Usuário"
-            colorScheme="purple"
-            bg="purple.600"
-            color="white"
-            borderRadius="full"
-            size="lg"
-            position="fixed"
-            bottom={4}
-            right={4}
-            onClick={() => router.push("/auth/register")}
-            _hover={{ bg: "purple.700" }}
-          >
-            +
-          </Button>
+          <PaginationComponent
+            count={total}
+            pageSize={limit}
+            page={page}
+            setPage={setPage}
+          />
         </>
       )}
     </Container>

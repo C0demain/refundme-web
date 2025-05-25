@@ -19,7 +19,6 @@ import { useState } from "react";
 
 export default function Dashboard() {
   const [period, setPeriod] = useState<string>("month");
-  // TODO: atribuir data inicial dinamicamente
   const [startDate, setStartDate] = useState<string>(
     dayjs(new Date()).subtract(1, "month").format("YYYY-MM-DD")
   );
@@ -42,7 +41,7 @@ export default function Dashboard() {
           colSpan={{ base: 2, mdDown: 1 }}
         >
           <Container my={2}>
-            <Text fontSize={"lg"} textAlign={"center"}>
+            <Text fontSize={"lg"} textAlign={"center"} fontWeight={"medium"}>
               Status das solicitações
             </Text>
             <Separator />
@@ -56,38 +55,40 @@ export default function Dashboard() {
           colSpan={{ base: 2, mdDown: 1 }}
         >
           <Stack
-            direction={{ _default: "row", mdDown: "column" }}
+            direction={{ _default: "row", lgDown: "column" }}
             align={"center"}
             separator={<StackSeparator />}
             marginInline={4}
             justify={"space-evenly"}
           >
             <HStack>
-              <Text fontSize="lg" m="4">
+              <Text fontSize={"lg"} m="4" fontWeight={"medium"}>
                 Início
               </Text>
               <Input
                 type={"date"}
                 size={"md"}
-                w={"15rem"}
+                w={"12rem"}
                 value={startDate}
                 onChange={(event) => setStartDate(event.target.value)}
+                textAlign={"center"}
               />
             </HStack>
             <HStack>
-              <Text fontSize="lg" m="4">
+              <Text fontSize={"lg"} m="4" fontWeight={"medium"}>
                 Fim
               </Text>
               <Input
                 type={"date"}
                 size={"md"}
-                w={"15rem"}
+                w={"12rem"}
                 value={endDate}
                 onChange={(event) => setEndDate(event.target.value)}
+                textAlign={"center"}
               />
             </HStack>
             <HStack>
-              <Text fontSize="lg" m="4">
+              <Text fontSize="lg" m="4" fontWeight={"medium"}>
                 Período
               </Text>
               <SegmentGroup.Root
@@ -116,7 +117,7 @@ export default function Dashboard() {
           colSpan={{ base: 2, mdDown: 1 }}
         >
           <Container my={2}>
-            <Text fontSize={"lg"} textAlign={"center"}>
+            <Text fontSize={"lg"} textAlign={"center"} fontWeight={"medium"}>
               Despesas por tipo
             </Text>
             <ExpensesByTypeChart

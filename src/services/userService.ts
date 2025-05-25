@@ -1,7 +1,11 @@
 import User from "@/@types/User";
 import api from "@/services/api";
+export interface GetUsersResponse {
+    data: User[],
+    total: number
+}
 
-export async function getAllUsers(params?: { page?: number; limit?: number }): Promise<User[]> {
+export async function getAllUsers(params?: { page?: number; limit?: number }): Promise<GetUsersResponse> {
   try {
     const { page = 1, limit = 10 } = params || {};
     const response = await api.get('/users', {
@@ -11,7 +15,7 @@ export async function getAllUsers(params?: { page?: number; limit?: number }): P
     console.log("Resposta bruta da API:", response.data);
 
     if (Array.isArray(response.data.data)) {
-      return response.data.data;
+      return response.data as GetUsersResponse;
     }
 
     throw new Error("API retornou dados inválidos. Esperado: array ou { users: array }");

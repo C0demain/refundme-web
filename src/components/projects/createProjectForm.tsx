@@ -1,17 +1,15 @@
 "use client";
 
-import {
-  Field,
-  Input,
-  Button,
-  VStack,
-} from "@chakra-ui/react";
+import { Field, Input, Button, VStack } from "@chakra-ui/react";
 import { useState } from "react";
 import { createProject } from "@/services/projectService";
 import SelectUser from "../util/selectUser";
 
-export default function CreateProjectForm({ onChange }: { onChange?: () => void }) {
-
+export default function CreateProjectForm({
+  onChange,
+}: {
+  onChange?: () => void;
+}) {
   const [formData, setFormData] = useState({
     title: "",
     description: "",
@@ -32,43 +30,52 @@ export default function CreateProjectForm({ onChange }: { onChange?: () => void 
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
-  e.preventDefault();
+    e.preventDefault();
 
-  const errors = {
-    title: formData.title.trim() === "" ? "Título é obrigatório." : "",
-    description: formData.description.trim() === "" ? "Descrição é obrigatória." : "",
-    cc: formData.cc.trim() === "" ? "Código CC é obrigatório." : "",
-    limit: formData.limit.trim() === "" || isNaN(Number(formData.limit)) ? "Limite válido é obrigatório." : "",
-    users: selectedUsers.length === 0 ? "Selecione ao menos um usuário." : "",
+    const errors = {
+      title: formData.title.trim() === "" ? "Título é obrigatório." : "",
+      description:
+        formData.description.trim() === "" ? "Descrição é obrigatória." : "",
+      cc: formData.cc.trim() === "" ? "Código CC é obrigatório." : "",
+      limit:
+        formData.limit.trim() === "" || isNaN(Number(formData.limit))
+          ? "Limite válido é obrigatório."
+          : "",
+      users: selectedUsers.length === 0 ? "Selecione ao menos um usuário." : "",
+    };
+
+    setFormErrors(errors);
+
+    // Se existir algum erro, cancela o envio
+    const hasErrors = Object.values(errors).some((error) => error !== "");
+    if (hasErrors) return;
+
+    const payload = {
+      title: formData.title,
+      description: formData.description,
+      cc: formData.cc,
+      limit: Number(formData.limit),
+      users: selectedUsers,
+    };
+
+    try {
+      await createProject(payload);
+      onChange?.();
+
+      // Limpa os campos
+      setFormData({ title: "", description: "", cc: "", limit: "" });
+      setSelectedUsers([]);
+      setFormErrors({
+        title: "",
+        description: "",
+        cc: "",
+        limit: "",
+        users: "",
+      });
+    } catch (error) {
+      console.error("Erro ao criar projeto:", error);
+    }
   };
-
-  setFormErrors(errors);
-
-  // Se existir algum erro, cancela o envio
-  const hasErrors = Object.values(errors).some((error) => error !== "");
-  if (hasErrors) return;
-
-  const payload = {
-    title: formData.title,
-    description: formData.description,
-    cc: formData.cc,
-    limit: Number(formData.limit),
-    users: selectedUsers,
-  };
-
-  try {
-    await createProject(payload);
-    onChange?.();
-
-    // Limpa os campos
-    setFormData({ title: "", description: "", cc: "", limit: "" });
-    setSelectedUsers([]);
-    setFormErrors({ title: "", description: "", cc: "", limit: "", users: "" });
-  } catch (error) {
-    console.error("Erro ao criar projeto:", error);
-  }
-};
-
 
   return (
     <form onSubmit={handleSubmit}>
@@ -82,7 +89,9 @@ export default function CreateProjectForm({ onChange }: { onChange?: () => void 
             placeholder="Digite o título do projeto"
             required
           />
-          <Field.HelperText>Este será o nome principal do projeto</Field.HelperText>
+          <Field.HelperText>
+            Este será o nome principal do projeto
+          </Field.HelperText>
           <Field.ErrorText>{formErrors.title}</Field.ErrorText>
         </Field.Root>
 
@@ -124,11 +133,11 @@ export default function CreateProjectForm({ onChange }: { onChange?: () => void 
         </Field.Root>
 
         <Field.Root>
-          <SelectUser onChange={setSelectedUsers}/>
+          <SelectUser onChange={setSelectedUsers} />
           <Field.ErrorText>{formErrors.users}</Field.ErrorText>
         </Field.Root>
 
-        <Button type="submit" colorScheme="purple" width="full">
+        <Button type="submit" bg="#7c55f3" width="full">
           Criar Projeto
         </Button>
       </VStack>

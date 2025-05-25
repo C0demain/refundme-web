@@ -39,7 +39,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       Cookies.set("authToken", data.access_token, { expires: 7 });
       Cookies.set("userId", data.user_id, { expires: 7 });
       setUser({ id: data.user_id, email });
-      router.push("/auth/home");
+      router.push("/auth/charts");
     } catch (error: any) {
       // Captura apenas a mensagem do erro
       throw error;
