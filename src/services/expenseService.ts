@@ -26,3 +26,14 @@ export async function getAllExpenses(params: { page: number; limit: number; }): 
     throw new Error(e.response?.data?.message || "Erro ao buscar despesas.");
   }
 }
+
+export async function getExpenseById(id: string): Promise<Expense> {
+  try {
+    const response = await api.get(`/expenses/${id}`);
+    return response.data.data;
+
+  } catch (e: any) {
+    console.error(e);
+    throw new Error(e.response?.data?.message || "Erro ao buscar despesa.");
+  }
+}
