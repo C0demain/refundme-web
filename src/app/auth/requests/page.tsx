@@ -64,6 +64,10 @@ export default function RequestList() {
     fetchRequests();
   }, [page, status]);
 
+  useEffect(() => {
+    setPage(1)
+  }, [status, search])
+
   if (isLoading) {
     return (
       <Center py="24">
