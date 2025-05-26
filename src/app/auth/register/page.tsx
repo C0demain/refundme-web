@@ -7,6 +7,7 @@ import {
   Table,
   Text,
   Spinner,
+  Select,
   Center,
   Button,
   Input,
@@ -40,7 +41,7 @@ const isEmailValid = (email: string) => {
   return emailRegex.test(email);
 };
 
-type NewUser = Omit<User, "id"> & { password: string };
+type NewUser = Omit<User, "_id"> & { password: string };
 
 export default function UserList() {
   const [users, setUsers] = useState<User[]>([]);
@@ -49,6 +50,7 @@ export default function UserList() {
     name: "",
     email: "",
     password: "",
+    role: "",
   });
   const [passwordStrength, setPasswordStrength] = useState(0);
   const [errorMessage, setErrorMessage] = useState("");
@@ -57,7 +59,7 @@ export default function UserList() {
   const fetchUsers = async () => {
     try {
       const newUsers = await getAllUsers();
-      setUsers(newUsers);
+      setUsers(newUsers.data);
     } catch (err) {
       console.error("Erro ao buscar usuários:", err);
     } finally {
@@ -77,11 +79,11 @@ export default function UserList() {
     }
 
     try {
-      const userToCreate: User = { id: "", ...newUser };
+      const userToCreate: User = { _id: "", ...newUser };
       const createdUser = await createUser(userToCreate);
 
       setUsers([...users, createdUser]);
-      setNewUser({ name: "", email: "", password: "" });
+      setNewUser({ name: "", email: "", password: "", role: "" });
       setPasswordStrength(0);
       setErrorMessage("");
       router.push("/auth/users");
@@ -106,7 +108,7 @@ export default function UserList() {
   }, []);
 
   return (
-    <Container centerContent>
+    <Container centerContent bg="white" width="2/6">
       <Text fontSize="3xl" fontWeight="bold" color="black" my="6">
         Cadastro de Usuários
       </Text>
@@ -141,6 +143,7 @@ export default function UserList() {
             borderColor="purple.500"
             color="gray.800"
           />
+          
           <Heading size="sm" alignSelf="start" color="gray.800">Senha</Heading>
           <Stack w="full" color="gray.800">
             <PasswordInput

@@ -1,8 +1,20 @@
 import "./globals.css";
 import { Provider } from "@/components/ui/provider";
+import { Toaster } from "react-hot-toast";
 import { AuthProvider } from "@/context/authContext";
+import { LightMode } from "@/components/ui/color-mode";
+import { Open_Sans } from "next/font/google";
+import { Theme } from "@chakra-ui/react";
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+const openSans = Open_Sans({
+  subsets: ["latin-ext", "symbols"],
+});
+
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   return (
     <html lang="pt-br" suppressHydrationWarning>
       <head>
@@ -11,13 +23,18 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <link rel="icon" href="/favicon.png" type="image/x-icon" />
       </head>
       <body className="w-full min-h-screen flex flex-col">
-        <Provider>
+        <Provider forcedTheme="light">
           <AuthProvider>
-            <div className="bg-gradient-to-b from-gray-200 to-white flex-1 flex flex-col">
-              {children}
-            </div>
+            <LightMode appearance="light">
+              <div
+                className={`bg-gradient-to-b from-gray-200 to-white flex-1 flex flex-col ${openSans.className}`}
+              >
+                {children}
+              </div>
+            </LightMode>
           </AuthProvider>
         </Provider>
+        <Toaster position="bottom-right" />
       </body>
     </html>
   );
