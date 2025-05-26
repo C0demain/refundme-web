@@ -1,22 +1,34 @@
 import { Dialog, Button, Portal, CloseButton, Spinner, Center, EmptyState } from "@chakra-ui/react";
 import { MdHideImage } from "react-icons/md";
 import { Image } from "@chakra-ui/react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { getExpenseById } from "@/services/expenseService";
 
 interface ReadImageProps {
-  image: string;
+  expense_id: string
 }
 
-const ReadImage: React.FC<ReadImageProps> = ({ image }) => {
-  const [isLoading, setIsLoading] = useState(true);
+const ReadImage: React.FC<ReadImageProps> = ({ expense_id }) => {
+  const [isLoading, setIsLoading] = useState(false);
+  const [image, setImage] = useState("")
+
+  const getImage = async () => {
+    setIsLoading(true)
+    try{
+      const newImage = await getExpenseById(expense_id)
+      setImage(newImage.image)
+    }catch(e){
+      console.error(e)
+    }finally{
+      setIsLoading(false)
+    }
+  }
+
+  useEffect(() => {
+    getImage()
+  }, [expense_id])
 
   return (
-    <Dialog.Root>
-      <Dialog.Trigger asChild>
-        <Button variant="solid" bg="#8a2be2" color="white" size="sm">
-          Recibo
-        </Button>
-      </Dialog.Trigger>
       <Portal>
         <Dialog.Backdrop />
         <Dialog.Positioner>
@@ -25,16 +37,9 @@ const ReadImage: React.FC<ReadImageProps> = ({ image }) => {
               <Dialog.Title>Recibo</Dialog.Title>
             </Dialog.Header>
             <Dialog.Body bg="white">
-              {isLoading && image !== '' && (
-                <Center py={6}>
-                  <Spinner color="#8a2be2" size="lg" />
-                </Center>
-              )}
               {image !== '' ? <Image
                 src={image}
                 alt="Recibo"
-                display={isLoading ? "none" : "block"}
-                onLoad={() => setIsLoading(false)}
               /> : ((!isLoading || image === '') &&
               <EmptyState.Root>
                 <EmptyState.Content>
@@ -53,7 +58,6 @@ const ReadImage: React.FC<ReadImageProps> = ({ image }) => {
           </Dialog.Content>
         </Dialog.Positioner>
       </Portal>
-    </Dialog.Root>
   );
 };
 

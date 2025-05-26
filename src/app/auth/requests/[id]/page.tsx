@@ -13,7 +13,8 @@ import {
     Heading,
     HStack,
     Spinner,
-    Table
+    Table,
+    Dialog
 } from "@chakra-ui/react";
 import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -129,7 +130,14 @@ export default function RequestPage() {
                   {new Date(expense.date).toLocaleDateString("pt-BR")}
                 </Table.Cell>
                 <Table.Cell bg="white" color="black" textStyle="md">
-                  <ReadImage image={expense.image} />
+                  <Dialog.Root lazyMount immediate={false}>
+                    <Dialog.Trigger asChild>
+                      <Button variant="solid" bg="#8a2be2" color="white" size="sm">
+                        Recibo
+                      </Button>
+                    </Dialog.Trigger>
+                    <ReadImage expense_id={expense._id} />
+                  </Dialog.Root>
                 </Table.Cell>
               </Box>
             ))}
