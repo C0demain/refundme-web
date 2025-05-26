@@ -130,14 +130,7 @@ export default function RequestPage() {
                   {new Date(expense.date).toLocaleDateString("pt-BR")}
                 </Table.Cell>
                 <Table.Cell bg="white" color="black" textStyle="md">
-                  <Dialog.Root lazyMount immediate={false}>
-                    <Dialog.Trigger asChild>
-                      <Button variant="solid" bg="#8a2be2" color="white" size="sm">
-                        Recibo
-                      </Button>
-                    </Dialog.Trigger>
-                    <ReadImage expense_id={expense._id} />
-                  </Dialog.Root>
+                  <ReadImage image={expense.image} />
                 </Table.Cell>
               </Box>
             ))}

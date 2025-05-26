@@ -80,7 +80,7 @@ export default function Home() {
                     <Table.Cell bg="white" color="black" textStyle="md">{new Date(expense.date).toLocaleDateString("pt-BR")}</Table.Cell>
                     <Table.Cell bg="white" color="black" textStyle="md">{expense?.user?.name}</Table.Cell>
                     <Table.Cell bg="white" color="black" textStyle="md">
-                      <ReadImage expense_id={expense._id} />
+                      <ReadImage image={expense.image} />
                     </Table.Cell>
                   </Box>
                 ))}

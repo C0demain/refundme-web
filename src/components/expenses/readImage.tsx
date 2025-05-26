@@ -1,34 +1,22 @@
 import { Dialog, Button, Portal, CloseButton, Spinner, Center, EmptyState } from "@chakra-ui/react";
 import { MdHideImage } from "react-icons/md";
 import { Image } from "@chakra-ui/react";
-import { useEffect, useState } from "react";
-import { getExpenseById } from "@/services/expenseService";
+import { useState } from "react";
 
 interface ReadImageProps {
-  expense_id: string
+  image: string
 }
 
-const ReadImage: React.FC<ReadImageProps> = ({ expense_id }) => {
+const ReadImage: React.FC<ReadImageProps> = ({ image }) => {
   const [isLoading, setIsLoading] = useState(false);
-  const [image, setImage] = useState("")
-
-  const getImage = async () => {
-    setIsLoading(true)
-    try{
-      const newImage = await getExpenseById(expense_id)
-      setImage(newImage.image)
-    }catch(e){
-      console.error(e)
-    }finally{
-      setIsLoading(false)
-    }
-  }
-
-  useEffect(() => {
-    getImage()
-  }, [expense_id])
 
   return (
+    <Dialog.Root lazyMount immediate={false}>
+      <Dialog.Trigger asChild>
+        <Button variant="solid" bg="#8a2be2" color="white" size="sm">
+          Recibo
+        </Button>
+      </Dialog.Trigger>
       <Portal>
         <Dialog.Backdrop />
         <Dialog.Positioner>
@@ -58,6 +46,7 @@ const ReadImage: React.FC<ReadImageProps> = ({ expense_id }) => {
           </Dialog.Content>
         </Dialog.Positioner>
       </Portal>
+   </Dialog.Root>
   );
 };
 
